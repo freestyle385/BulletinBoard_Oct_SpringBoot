@@ -9,10 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.sbs.exam.demo.vo.Article;
 
 @Controller
 public class UserHomeController {
@@ -79,7 +76,7 @@ public class UserHomeController {
 	@ResponseBody
 	public Article getArticle() {
 		Article article = new Article(); // @NoArgsConstructor로 인해 인자를 받지 않아도 됨
-		Article article1 = new Article(1, "제목1"); // @AllArgsConstructor로 인해 인자를 받을 수 있음
+		Article article1 = new Article(1, "제목1", "내용1"); // @AllArgsConstructor로 인해 인자를 받을 수 있음
 		
 		return article;
 	}
@@ -88,8 +85,8 @@ public class UserHomeController {
 	@ResponseBody
 	public List<Article> getArticles() {
 
-		Article article1 = new Article(1, "제목1");
-		Article article2 = new Article(2, "제목2");
+		Article article1 = new Article(1, "제목1", "내용1");
+		Article article2 = new Article(2, "제목2", "내용2");
 		
 		List<Article> list = new ArrayList<>();
 
@@ -101,26 +98,6 @@ public class UserHomeController {
 
 }
 
-//@Data // Article 전체를 @Data를 통해 값을 가져옴(private도 가져옴)
-//class Article {
-//	// @Getter를 쓰면 private이어도 값을 가져올 수 있음
-//	private int id;
-//	private String title;
-//	
-//	public Article() {
-//		id = 1;
-//		title = "제목";
-//	}
-//}
 
-@Data // Article 전체를 @Data를 통해 값을 가져옴(private도 가져옴)
-@AllArgsConstructor
-@NoArgsConstructor
-class Article {
-	// @Getter를 쓰면 private이어도 값을 가져올 수 있음
-	private int id;
-	private String title;
-	
-}
 
 
