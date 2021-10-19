@@ -11,21 +11,24 @@ import com.sbs.exam.demo.vo.Article;
 
 @Controller
 public class UserArticleController {
+	// 인스턴스 변수
 	private int articleLastId;
 	private List<Article> articles;
 
+	// 생성자
 	public UserArticleController() {
 		articleLastId = 0;
 		articles = new ArrayList<>();
-		
+
 		makeTestData();
 	}
 
+	// 서비스 메소드 시작
 	private void makeTestData() {
 		for (int i = 1; i <= 10; i++) {
 			String title = "제목" + i;
 			String body = "내용" + i;
-			
+
 			writeArticle(title, body);
 		}
 	}
@@ -36,10 +39,36 @@ public class UserArticleController {
 
 		articles.add(article);
 		articleLastId = id;
-		
+
 		return article;
 	}
-	
+
+	private Article getArticle(int id) {
+		for (Article foundArticle : articles) {
+			if (foundArticle.getId() == id) {
+				return foundArticle;
+			}
+		}
+		return null;
+	}
+
+	private void deleteArticle(int id) {
+		Article foundArticle = getArticle(id);
+
+		articles.remove(foundArticle);
+	}
+
+	private Article modifyArticle(int id, String title, String body) {
+		Article foundArticle = getArticle(id);
+
+		foundArticle.setTitle(title);
+		foundArticle.setBody(body);
+
+		return foundArticle;
+	}
+	// 서비스 메소드 끝
+
+	// 액션 메소드 시작
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
 	public Article doAdd(String title, String body) {
@@ -57,49 +86,29 @@ public class UserArticleController {
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
 	public String doDelete(int id) {
-		Article foundArticle = null;
-		int foundIndex = -1;
-		
-		for (int i = 0; i < articles.size(); i++) {
-			Article article = articles.get(i);
-			
-			if (article.getId() == id) {
-				foundIndex = i;
-				break;
-			}
-		}
-		
-		if (foundIndex == -1) {
+		Article foundArticle = getArticle(id);
+
+		if (foundArticle == null) {
 			return id + "번 글은 존재하지 않습니다.";
-		} else {
-			articles.remove(foundIndex);
-			return id + "번 글이 삭제되었습니다.";
 		}
+
+		deleteArticle(id);
+
+		return id + "번 글이 삭제되었습니다.";
 	}
 
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
 	public String doModify(int id, String title, String body) {
-		Article foundArticle = null;
-		int foundIndex = -1;
-		
-		for (int i = 0; i < articles.size(); i++) {
-			Article article = articles.get(i);
-			
-			if (article.getId() == id) {
-				foundIndex = i;
-				break;
-			}
+		Article foundArticle = getArticle(id);
+
+		if (foundArticle == null) {
+			return id + "번 글은 존재하지 않습니다.";
 		}
 		
-		if (foundIndex == -1) {
-			return id + "번 글은 존재하지 않습니다.";
-		} 
-		
-		foundArticle = articles.get(foundIndex);
-		foundArticle.setTitle(title);
-		foundArticle.setBody(body);
-		
+		foundArticle = modifyArticle(id, title, body);
+
 		return id + "번 글이 수정되었습니다.\n" + foundArticle;
 	}
+	// 액션 메소드 끝
 }
