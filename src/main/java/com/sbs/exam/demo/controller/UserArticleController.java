@@ -53,5 +53,28 @@ public class UserArticleController {
 	public List<Article> getArticles() {
 		return articles;
 	}
+
+	@RequestMapping("/usr/article/doDelete")
+	@ResponseBody
+	public String doDelete(int id) {
+		Article foundArticle = null;
+		int foundIndex = -1;
+		
+		for (int i = 0; i < articles.size(); i++) {
+			Article article = articles.get(i);
+			
+			if (article.getId() == id) {
+				foundIndex = i;
+				break;
+			}
+		}
+		
+		if (foundIndex == -1) {
+			return id + "번 글은 존재하지 않습니다.";
+		} else {
+			articles.remove(foundIndex);
+			return id + "번 글이 삭제되었습니다.";
+		}
+	}
 	
 }
