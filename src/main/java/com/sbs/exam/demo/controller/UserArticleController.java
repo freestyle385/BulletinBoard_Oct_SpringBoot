@@ -76,5 +76,30 @@ public class UserArticleController {
 			return id + "번 글이 삭제되었습니다.";
 		}
 	}
-	
+
+	@RequestMapping("/usr/article/doModify")
+	@ResponseBody
+	public String doModify(int id, String title, String body) {
+		Article foundArticle = null;
+		int foundIndex = -1;
+		
+		for (int i = 0; i < articles.size(); i++) {
+			Article article = articles.get(i);
+			
+			if (article.getId() == id) {
+				foundIndex = i;
+				break;
+			}
+		}
+		
+		if (foundIndex == -1) {
+			return id + "번 글은 존재하지 않습니다.";
+		} 
+		
+		foundArticle = articles.get(foundIndex);
+		foundArticle.setTitle(title);
+		foundArticle.setBody(body);
+		
+		return id + "번 글이 수정되었습니다.\n" + foundArticle;
+	}
 }
