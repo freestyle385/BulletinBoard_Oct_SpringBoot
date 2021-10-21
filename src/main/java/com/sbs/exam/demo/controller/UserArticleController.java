@@ -12,7 +12,6 @@ import com.sbs.exam.demo.vo.Article;
 
 @Controller
 public class UserArticleController {
-	//인스턴스 변수
 	@Autowired // 등록된 컴포넌트를 자동으로 연결 해줌
 	private ArticleService articleService;
 
