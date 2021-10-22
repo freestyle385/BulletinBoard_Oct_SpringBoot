@@ -19,9 +19,9 @@ public class UserArticleController {
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
 	public Article doAdd(String title, String body) {
-		Article article = articleService.writeArticle(title, body);
-
-		return article;
+		int id = articleService.writeArticle(title, body);
+		Article foundArticle = articleService.getFoundArticle(id);
+		return foundArticle;
 	}
 
 	@RequestMapping("/usr/article/getArticles")
@@ -66,9 +66,11 @@ public class UserArticleController {
 			return id + "번 글은 존재하지 않습니다.";
 		}
 
-		foundArticle = articleService.modifyArticle(id, title, body);
+		articleService.modifyArticle(id, title, body);
+		
+		Article modifiedArticle = articleService.getFoundArticle(id);
 
-		return id + "번 글이 수정되었습니다.<br>" + foundArticle;
+		return id + "번 글이 수정되었습니다.<br>" + modifiedArticle;
 	}
 	// 액션 메소드 끝
 }

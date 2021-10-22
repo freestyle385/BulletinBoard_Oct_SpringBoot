@@ -15,11 +15,12 @@ public class ArticleService {
 	
 	public ArticleService(ArticleRepository articleRepository) {
 		this.articleRepository = articleRepository;
-		articleRepository.makeTestData();
 	}
 	
-	public Article writeArticle(String title, String body) {
-		return articleRepository.writeArticle(title, body);
+	public int writeArticle(String title, String body) {
+		articleRepository.writeArticle(title, body);
+		int id = articleRepository.lastInsertId();
+		return id;
 	}
 
 	public Article getFoundArticle(int id) {
@@ -34,7 +35,7 @@ public class ArticleService {
 		articleRepository.deleteArticle(id);
 	}
 
-	public Article modifyArticle(int id, String title, String body) {
-		return articleRepository.modifyArticle(id, title, body);
+	public void modifyArticle(int id, String title, String body) {
+		articleRepository.modifyArticle(id, title, body);
 	}
 }
