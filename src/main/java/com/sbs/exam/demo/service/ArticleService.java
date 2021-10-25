@@ -19,7 +19,7 @@ public class ArticleService {
 	
 	public int writeArticle(String title, String body) {
 		articleRepository.writeArticle(title, body);
-		int id = articleRepository.lastInsertId();
+		int id = articleRepository.getLastInsertId();
 		return id;
 	}
 
