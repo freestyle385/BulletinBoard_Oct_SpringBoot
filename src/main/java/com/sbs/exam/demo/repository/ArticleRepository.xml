@@ -25,10 +25,16 @@
 
 	<update id="modifyArticle">
 		UPDATE article
-		SET updateDate = NOW(),
-		title =
-		#{title},
-		`body` = #{body}
+		<!-- set 태그로 아래처럼 묶어줄 수도 있음 -->
+		<set> 
+			<if test="title != null and title != ''">
+				title = #{title},
+			</if>
+			<if test="body != null and body != ''">
+				`body` = #{body},
+			</if>
+			updateDate = NOW()
+		</set>
 		WHERE id = #{id}
 	</update>
 

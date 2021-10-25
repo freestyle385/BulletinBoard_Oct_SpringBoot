@@ -61,10 +61,17 @@ public class UserArticleController {
 	@ResponseBody
 	public String doModify(int id, String title, String body) {
 		Article foundArticle = articleService.getFoundArticle(id);
-
+		
 		if (foundArticle == null) {
 			return id + "번 글은 존재하지 않습니다.";
 		}
+		
+//		if (title == null) {
+//			title = foundArticle.getTitle();
+//		}
+//		if (body == null) {
+//			body = foundArticle.getBody();
+//		}
 
 		articleService.modifyArticle(id, title, body);
 		
