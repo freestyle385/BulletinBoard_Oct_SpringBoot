@@ -65,13 +65,6 @@ public class UserArticleController {
 		if (foundArticle == null) {
 			return id + "번 글은 존재하지 않습니다.";
 		}
-		
-//		if (title == null) {
-//			title = foundArticle.getTitle();
-//		}
-//		if (body == null) {
-//			body = foundArticle.getBody();
-//		}
 
 		articleService.modifyArticle(id, title, body);
 		
