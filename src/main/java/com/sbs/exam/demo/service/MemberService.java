@@ -11,8 +11,8 @@ public class MemberService {
 	@Autowired
 	private MemberRepository memberRepository;
 
-	public int doJoin(String loginId, String loginPw, String name, String nickname, String cellPhoneNo, String email) {
-		memberRepository.doJoin(loginId, loginPw, name, nickname, cellPhoneNo, email);
+	public int join(String loginId, String loginPw, String name, String nickname, String cellPhoneNo, String email) {
+		memberRepository.join(loginId, loginPw, name, nickname, cellPhoneNo, email);
 		int id = memberRepository.getLastInsertId();
 		return id;
 	}
@@ -20,4 +20,5 @@ public class MemberService {
 	public Member getFoundMember(int id) {
 		return memberRepository.getFoundMember(id);
 	}
+
 }

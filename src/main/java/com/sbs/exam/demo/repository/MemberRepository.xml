@@ -3,9 +3,10 @@
 
 <mapper
 	namespace="com.sbs.exam.demo.repository.MemberRepository">
-	<insert id="doJoin">
+	<insert id="join">
 		INSERT INTO `member`
 		SET regDate = NOW(),
+		updateDate = NOW(),
 		loginId = #{loginId},
 		loginPw = #{loginPw},
 		`name` = #{name},

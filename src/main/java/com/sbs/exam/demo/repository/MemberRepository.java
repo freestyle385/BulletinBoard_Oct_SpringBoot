@@ -8,7 +8,7 @@ import com.sbs.exam.demo.vo.Member;
 @Mapper
 public interface MemberRepository {
 
-	public void doJoin(@Param("loginId") String loginId, @Param("loginPw") String loginPw, @Param("name") String name,
+	public void join(@Param("loginId") String loginId, @Param("loginPw") String loginPw, @Param("name") String name,
 			@Param("nickname") String nickname, @Param("cellPhoneNo") String cellPhoneNo, @Param("email") String email);
 
 	public int getLastInsertId();
