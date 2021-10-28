@@ -13,17 +13,23 @@ import com.sbs.exam.demo.vo.Member;
 public class UserMemberController {
 	@Autowired // 등록된 컴포넌트를 자동으로 연결 해줌
 	private MemberService memberService;
-
+	
 	// 액션 메소드 시작
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
-	public Member doJoin(String loginId, String loginPw, String name, String nickname, String cellPhoneNo, String email) {
+	public Object doJoin(String loginId, String loginPw, String name, String nickname, String cellPhoneNo, String email) {
+		boolean isLoginIdDup = memberService.isLoginIdDup(loginId);
+		
+		if (isLoginIdDup) {
+			return "이미 존재하는 아이디입니다.";
+		}
+		
 		int id = memberService.join(loginId, loginPw, name, nickname, cellPhoneNo, email);
 		Member foundMember = memberService.getFoundMember(id);
 		
 		return foundMember;
 	}
-	
+
 	@RequestMapping("/usr/member/getMemberInfo")
 	@ResponseBody
 	public Object getMemberInfo(int id) {

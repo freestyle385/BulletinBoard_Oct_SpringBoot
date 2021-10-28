@@ -21,4 +21,8 @@ public class MemberService {
 		return memberRepository.getFoundMember(id);
 	}
 
+	public boolean isLoginIdDup(String loginId) {
+		return memberRepository.isLoginIdDup(loginId);
+	}
+
 }

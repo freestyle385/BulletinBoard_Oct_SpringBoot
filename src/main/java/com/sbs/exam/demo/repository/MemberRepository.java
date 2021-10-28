@@ -14,4 +14,6 @@ public interface MemberRepository {
 	public int getLastInsertId();
 
 	public Member getFoundMember(@Param("id") int id);
+
+	public boolean isLoginIdDup(String loginId);
 }

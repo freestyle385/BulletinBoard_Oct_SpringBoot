@@ -24,5 +24,11 @@
 	<select id="getLastInsertId" resultType="int">
 		SELECT LAST_INSERT_ID()
 	</select>
+	
+	<select id="isLoginIdDup" resultType="boolean">
+		SELECT COUNT(*) > 0
+		FROM `member`
+		WHERE loginId = #{loginId}
+	</select>
 
 </mapper> 
