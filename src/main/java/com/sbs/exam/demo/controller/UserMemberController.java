@@ -39,14 +39,17 @@ public class UserMemberController {
 			return "이메일을 입력해주세요.";
 		}
 		
-		boolean isLoginIdDup = memberService.isLoginIdDup(loginId);
+		int id = memberService.join(loginId, loginPw, name, nickname, cellPhoneNo, email);
 		
-		if (isLoginIdDup) {
+		if (id == -1) {
 			return "이미 존재하는 아이디입니다.";
 		}
 		
-		int id = memberService.join(loginId, loginPw, name, nickname, cellPhoneNo, email);
-		Member foundMember = memberService.getFoundMember(id);
+		if (id == -2) {
+			return "이미 가입된 회원의 이름과 이메일입니다.";
+		}
+		
+		Member foundMember = memberService.getMemberById(id);
 		
 		return foundMember;
 	}
@@ -54,7 +57,7 @@ public class UserMemberController {
 	@RequestMapping("/usr/member/getMemberInfo")
 	@ResponseBody
 	public Object getMemberInfo(int id) {
-		Member foundMember = memberService.getFoundMember(id);
+		Member foundMember = memberService.getMemberById(id);
 
 		if (foundMember == null) {
 			return id + "번 회원은 존재하지 않습니다.";
