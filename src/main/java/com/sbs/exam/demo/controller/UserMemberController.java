@@ -42,11 +42,11 @@ public class UserMemberController {
 		int id = memberService.join(loginId, loginPw, name, nickname, cellPhoneNo, email);
 		
 		if (id == -1) {
-			return "이미 존재하는 아이디입니다.";
+			return Util.f("(%s)(은)는 이미 존재하는 아이디입니다.", loginId);
 		}
 		
 		if (id == -2) {
-			return "이미 가입된 회원의 이름과 이메일입니다.";
+			return Util.f("(%s), (%s)(은)는 이미 가입된 회원의 이름과 이메일입니다.", name, email);
 		}
 		
 		Member foundMember = memberService.getMemberById(id);

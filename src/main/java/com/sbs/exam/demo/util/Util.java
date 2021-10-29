@@ -16,5 +16,10 @@ public class Util {
 		String str = (String) obj;
 		
 		return str.trim().length() == 0;
-	};
+	}
+
+	public static String f(String format, Object... args) {
+		// 개수가 명확하지 않은 인자를 넘겨줄 때에는 object...
+		return String.format(format, args);
+	}
 }
