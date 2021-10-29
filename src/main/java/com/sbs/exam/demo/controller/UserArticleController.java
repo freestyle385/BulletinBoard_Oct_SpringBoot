@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sbs.exam.demo.service.ArticleService;
+import com.sbs.exam.demo.util.Util;
 import com.sbs.exam.demo.vo.Article;
+import com.sbs.exam.demo.vo.ResultData;
 
 @Controller
 public class UserArticleController {
@@ -32,15 +34,14 @@ public class UserArticleController {
 	
 	@RequestMapping("/usr/article/getArticle")
 	@ResponseBody
-	public String getArticle(int id) {
+	public ResultData getArticle(int id) {
 		Article foundArticle = articleService.getFoundArticle(id);
 
 		if (foundArticle == null) {
-			return id + "번 글은 존재하지 않습니다.";
+			return ResultData.from("F-1", Util.f("%d번 게시물은 존재하지 않습니다.", id));
 		}
 
-		return "게시물 번호 : " + foundArticle.getId() + "<br>게시물 제목 : " + foundArticle.getTitle() + "<br>게시물 내용 : "
-				+ foundArticle.getBody();
+		return ResultData.from("S-1", Util.f("%d번 게시물이 조회되었습니다.", id), foundArticle);
 	}
 
 	@RequestMapping("/usr/article/doDelete")
