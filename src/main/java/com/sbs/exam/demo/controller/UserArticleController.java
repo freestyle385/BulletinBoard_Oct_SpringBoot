@@ -20,16 +20,27 @@ public class UserArticleController {
 	// 액션 메소드 시작
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
-	public Article doAdd(String title, String body) {
-		int id = articleService.writeArticle(title, body);
+	public ResultData doAdd(String title, String body) {
+		if (Util.isParamEmpty(title)) {
+			return ResultData.from("F-1", "제목을 입력해주세요.");
+		}
+		if (Util.isParamEmpty(body)) {
+			return ResultData.from("F-2", "내용을 입력해주세요.");
+		}
+		
+		ResultData writeArticleRd = articleService.writeArticle(title, body);
+		int id = (int) writeArticleRd.getData1();
+		
 		Article foundArticle = articleService.getFoundArticle(id);
-		return foundArticle;
+		
+		return ResultData.from(writeArticleRd.getResultCode(), writeArticleRd.getMsg(), foundArticle);
 	}
 
 	@RequestMapping("/usr/article/getArticles")
 	@ResponseBody
-	public List<Article> getArticles() {
-		return articleService.getArticles();
+	public ResultData getArticles() {
+		
+		return ResultData.from("S-1", Util.f("전체 게시물이 조회되었습니다."), articleService.getArticles());
 	}
 	
 	@RequestMapping("/usr/article/getArticle")
