@@ -4,30 +4,35 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sbs.exam.demo.repository.MemberRepository;
+import com.sbs.exam.demo.util.Util;
 import com.sbs.exam.demo.vo.Member;
+import com.sbs.exam.demo.vo.ResultData;
 
 @Service
 public class MemberService {
 	@Autowired
 	private MemberRepository memberRepository;
 
-	public int join(String loginId, String loginPw, String name, String nickname, String cellPhoneNo, String email) {
+	public ResultData join(String loginId, String loginPw, String name, String nickname, String cellPhoneNo,
+			String email) {
 		// 아이디 중복 체크
 		Member oldmember = getMemberByLoginId(loginId);
 
 		if (oldmember != null) {
-			return -1;
+			return ResultData.from("F-7", Util.f("(%s)(은)는 이미 존재하는 아이디입니다.", loginId));
 		}
+
 		// 이름, 이메일 중복 체크
 		oldmember = getMemberByNameAndEmail(name, email);
 
 		if (oldmember != null) {
-			return -2;
+			return ResultData.from("F-8", Util.f("(%s), (%s)(은)는 이미 가입된 회원의 이름과 이메일입니다.", name, email));
 		}
-		
+
 		memberRepository.join(loginId, loginPw, name, nickname, cellPhoneNo, email);
 		int id = memberRepository.getLastInsertId();
-		return id;
+
+		return ResultData.from("S-1", "회원가입이 완료되었습니다.", id);
 	}
 
 	private Member getMemberByNameAndEmail(String name, String email) {
@@ -37,7 +42,7 @@ public class MemberService {
 	public Member getMemberById(int id) {
 		return memberRepository.getMemberById(id);
 	}
-	
+
 	private Member getMemberByLoginId(String loginId) {
 		return memberRepository.getMemberByLoginId(loginId);
 	}

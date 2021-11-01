@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sbs.exam.demo.service.MemberService;
 import com.sbs.exam.demo.util.Util;
-import com.sbs.exam.demo.vo.Article;
 import com.sbs.exam.demo.vo.Member;
+import com.sbs.exam.demo.vo.ResultData;
 
 @Controller
 public class UserMemberController {
@@ -18,40 +18,39 @@ public class UserMemberController {
 	// 액션 메소드 시작
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
-	public Object doJoin(String loginId, String loginPw, String name, String nickname, String cellPhoneNo, String email) {
+	public ResultData doJoin(String loginId, String loginPw, String name, String nickname, String cellPhoneNo, String email) {
 		
 		if (Util.isParamEmpty(loginId)) {
-			return "아이디를 입력해주세요.";
+			return ResultData.from("F-1", "아이디를 입력해주세요.");
 		}
 		if (Util.isParamEmpty(loginPw)) {
-			return "비밀번호를 입력해주세요.";
+			return ResultData.from("F-2", "비밀번호를 입력해주세요.");
 		}
 		if (Util.isParamEmpty(name)) {
-			return "이름을 입력해주세요.";
+			return ResultData.from("F-3", "이름을 입력해주세요.");
 		}
 		if (Util.isParamEmpty(nickname)) {
-			return "닉네임을 입력해주세요.";
+			return ResultData.from("F-4", "닉네임을 입력해주세요.");
 		}
 		if (Util.isParamEmpty(cellPhoneNo)) {
-			return "연락처를 입력해주세요.";
+			return ResultData.from("F-5", "전화번호를 입력해주세요.");
 		}
 		if (Util.isParamEmpty(email)) {
-			return "이메일을 입력해주세요.";
+			return ResultData.from("F-6", "이메일을 입력해주세요.");
 		}
+		// S-1
+		// 회원가입이 완료되었습니다.
 		
-		int id = memberService.join(loginId, loginPw, name, nickname, cellPhoneNo, email);
+		ResultData joinRd = memberService.join(loginId, loginPw, name, nickname, cellPhoneNo, email);
 		
-		if (id == -1) {
-			return Util.f("(%s)(은)는 이미 존재하는 아이디입니다.", loginId);
+		if (joinRd.isFail()) {
+			return joinRd;
 		}
+
 		
-		if (id == -2) {
-			return Util.f("(%s), (%s)(은)는 이미 가입된 회원의 이름과 이메일입니다.", name, email);
-		}
+		Member foundMember = memberService.getMemberById((int) joinRd.getData1());
 		
-		Member foundMember = memberService.getMemberById(id);
-		
-		return foundMember;
+		return ResultData.newData(joinRd, foundMember);
 	}
 
 	@RequestMapping("/usr/member/getMemberInfo")

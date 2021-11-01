@@ -39,8 +39,9 @@ public class UserArticleController {
 	@RequestMapping("/usr/article/getArticles")
 	@ResponseBody
 	public ResultData getArticles() {
+		List<Article> articles = articleService.getArticles();
 		
-		return ResultData.from("S-1", Util.f("전체 게시물이 조회되었습니다."), articleService.getArticles());
+		return ResultData.from("S-1", Util.f("전체 게시물이 조회되었습니다."), articles);
 	}
 	
 	@RequestMapping("/usr/article/getArticle")

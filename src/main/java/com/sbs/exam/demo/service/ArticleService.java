@@ -14,15 +14,15 @@ import com.sbs.exam.demo.vo.ResultData;
 public class ArticleService {
 	@Autowired
 	private ArticleRepository articleRepository;
-	
+
 	public ArticleService(ArticleRepository articleRepository) {
 		this.articleRepository = articleRepository;
 	}
-	
+
 	public ResultData writeArticle(String title, String body) {
 		articleRepository.writeArticle(title, body);
 		int id = articleRepository.getLastInsertId();
-		
+
 		return ResultData.from("S-1", Util.f("%d번 게시물이 생성되었습니다.", id), id);
 	}
 
