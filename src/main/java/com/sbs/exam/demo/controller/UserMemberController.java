@@ -1,5 +1,7 @@
 package com.sbs.exam.demo.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,12 +16,13 @@ import com.sbs.exam.demo.vo.ResultData;
 public class UserMemberController {
 	@Autowired // 등록된 컴포넌트를 자동으로 연결 해줌
 	private MemberService memberService;
-	
+
 	// 액션 메소드 시작
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
-	public ResultData<Member> doJoin(String loginId, String loginPw, String name, String nickname, String cellPhoneNo, String email) {
-		
+	public ResultData<Member> doJoin(String loginId, String loginPw, String name, String nickname, String cellPhoneNo,
+			String email) {
+
 		if (Util.isParamEmpty(loginId)) {
 			return ResultData.from("F-1", "아이디를 입력해주세요.");
 		}
@@ -40,15 +43,15 @@ public class UserMemberController {
 		}
 		// S-1
 		// 회원가입이 완료되었습니다.
-		
+
 		ResultData<Integer> joinRd = memberService.join(loginId, loginPw, name, nickname, cellPhoneNo, email);
-		
+
 		if (joinRd.isFail()) {
 			return (ResultData) joinRd;
 		}
-		
+
 		Member foundMember = memberService.getMemberById(joinRd.getData1());
-		
+
 		return ResultData.newData(joinRd, foundMember);
 	}
 
@@ -62,6 +65,41 @@ public class UserMemberController {
 		}
 
 		return ResultData.from("S-1", Util.f("%d번 회원이 조회되었습니다.", id), foundMember);
+	}
+
+	@RequestMapping("/usr/member/doLogin")
+	@ResponseBody
+	public ResultData doLogin(HttpSession httpSession, String loginId, String loginPw) {
+		boolean isLogined = false;
+
+		if (httpSession.getAttribute("loginedMemberId") != null) {
+			isLogined = true;
+		}
+
+		if (isLogined) {
+			return ResultData.from("F-5", "이미 로그인 상태입니다.");
+		}
+
+		if (Util.isParamEmpty(loginId)) {
+			return ResultData.from("F-1", "loginId을(를) 입력해주세요.");
+		}
+		if (Util.isParamEmpty(loginPw)) {
+			return ResultData.from("F-2", "loginPw을(를) 입력해주세요.");
+		}
+
+		Member foundMember = memberService.getMemberByLoginId(loginId);
+
+		if (foundMember == null) {
+			return ResultData.from("F-3", "존재하지 않는 아이디 입니다.");
+		}
+
+		if (foundMember.getLoginPw().equals(loginPw) == false) {
+			return ResultData.from("F-4", "비밀번호가 일치하지 않습니다.");
+		}
+
+		httpSession.setAttribute("loginedMemberId", foundMember.getId());
+
+		return ResultData.from("S-1", Util.f("%s님 환영합니다.", foundMember.getNickname()));
 	}
 	// 액션 메소드 끝
 }
