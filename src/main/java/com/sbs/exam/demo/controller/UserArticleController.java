@@ -20,7 +20,7 @@ public class UserArticleController {
 	// 액션 메소드 시작
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
-	public ResultData doAdd(String title, String body) {
+	public ResultData<Article> doAdd(String title, String body) {
 		if (Util.isParamEmpty(title)) {
 			return ResultData.from("F-1", "제목을 입력해주세요.");
 		}
@@ -33,12 +33,12 @@ public class UserArticleController {
 		
 		Article foundArticle = articleService.getFoundArticle(id);
 		
-		return ResultData.from(writeArticleRd.getResultCode(), writeArticleRd.getMsg(), foundArticle);
+		return ResultData.newData(writeArticleRd, foundArticle);
 	}
 
 	@RequestMapping("/usr/article/getArticles")
 	@ResponseBody
-	public ResultData getArticles() {
+	public ResultData<List<Article>> getArticles() {
 		List<Article> articles = articleService.getArticles();
 		
 		return ResultData.from("S-1", Util.f("전체 게시물이 조회되었습니다."), articles);
@@ -46,7 +46,7 @@ public class UserArticleController {
 	
 	@RequestMapping("/usr/article/getArticle")
 	@ResponseBody
-	public ResultData getArticle(int id) {
+	public ResultData<Article> getArticle(int id) {
 		Article foundArticle = articleService.getFoundArticle(id);
 
 		if (foundArticle == null) {
@@ -58,32 +58,32 @@ public class UserArticleController {
 
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
-	public String doDelete(int id) {
+	public ResultData<Integer> doDelete(int id) {
 		Article foundArticle = articleService.getFoundArticle(id);
 
 		if (foundArticle == null) {
-			return id + "번 글은 존재하지 않습니다.";
+			return ResultData.from("F-1", Util.f("%d번 게시물은 존재하지 않습니다.", id));
 		}
 
 		articleService.deleteArticle(id);
 
-		return id + "번 글이 삭제되었습니다.";
+		return ResultData.from("S-1", Util.f("%d번 게시물이 삭제되었습니다.", id), id);
 	}
 
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public String doModify(int id, String title, String body) {
+	public ResultData<Article> doModify(int id, String title, String body) {
 		Article foundArticle = articleService.getFoundArticle(id);
 		
 		if (foundArticle == null) {
-			return id + "번 글은 존재하지 않습니다.";
+			return ResultData.from("F-1", Util.f("%d번 게시물은 존재하지 않습니다.", id));
 		}
 
 		articleService.modifyArticle(id, title, body);
 		
 		Article modifiedArticle = articleService.getFoundArticle(id);
 
-		return id + "번 글이 수정되었습니다.<br>" + modifiedArticle;
+		return ResultData.from("S-1", Util.f("%d번 게시물이 수정되었습니다.", id), modifiedArticle);
 	}
 	// 액션 메소드 끝
 }
