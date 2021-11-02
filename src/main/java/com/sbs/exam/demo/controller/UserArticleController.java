@@ -28,8 +28,8 @@ public class UserArticleController {
 			return ResultData.from("F-2", "내용을 입력해주세요.");
 		}
 		
-		ResultData writeArticleRd = articleService.writeArticle(title, body);
-		int id = (int) writeArticleRd.getData1();
+		ResultData<Integer> writeArticleRd = articleService.writeArticle(title, body);
+		int id = writeArticleRd.getData1();
 		
 		Article foundArticle = articleService.getFoundArticle(id);
 		
