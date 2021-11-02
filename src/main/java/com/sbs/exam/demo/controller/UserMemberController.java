@@ -18,7 +18,7 @@ public class UserMemberController {
 	// 액션 메소드 시작
 	@RequestMapping("/usr/member/doJoin")
 	@ResponseBody
-	public ResultData doJoin(String loginId, String loginPw, String name, String nickname, String cellPhoneNo, String email) {
+	public ResultData<Member> doJoin(String loginId, String loginPw, String name, String nickname, String cellPhoneNo, String email) {
 		
 		if (Util.isParamEmpty(loginId)) {
 			return ResultData.from("F-1", "아이디를 입력해주세요.");
@@ -41,28 +41,27 @@ public class UserMemberController {
 		// S-1
 		// 회원가입이 완료되었습니다.
 		
-		ResultData joinRd = memberService.join(loginId, loginPw, name, nickname, cellPhoneNo, email);
+		ResultData<Integer> joinRd = memberService.join(loginId, loginPw, name, nickname, cellPhoneNo, email);
 		
 		if (joinRd.isFail()) {
-			return joinRd;
+			return (ResultData) joinRd;
 		}
-
 		
-		Member foundMember = memberService.getMemberById((int) joinRd.getData1());
+		Member foundMember = memberService.getMemberById(joinRd.getData1());
 		
 		return ResultData.newData(joinRd, foundMember);
 	}
 
 	@RequestMapping("/usr/member/getMemberInfo")
 	@ResponseBody
-	public Object getMemberInfo(int id) {
+	public ResultData<Member> getMemberInfo(int id) {
 		Member foundMember = memberService.getMemberById(id);
 
 		if (foundMember == null) {
-			return id + "번 회원은 존재하지 않습니다.";
+			return ResultData.from("F-1", Util.f("%d번 회원은 존재하지 않습니다.", id));
 		}
 
-		return foundMember;
+		return ResultData.from("S-1", Util.f("%d번 회원이 조회되었습니다.", id), foundMember);
 	}
 	// 액션 메소드 끝
 }
