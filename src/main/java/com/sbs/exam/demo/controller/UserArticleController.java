@@ -2,6 +2,8 @@ package com.sbs.exam.demo.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +22,7 @@ public class UserArticleController {
 	// 액션 메소드 시작
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
-	public ResultData<Article> doAdd(String title, String body) {
+	public ResultData<Article> doAdd(HttpSession httpSession, String title, String body) {
 		if (Util.isParamEmpty(title)) {
 			return ResultData.from("F-1", "제목을 입력해주세요.");
 		}

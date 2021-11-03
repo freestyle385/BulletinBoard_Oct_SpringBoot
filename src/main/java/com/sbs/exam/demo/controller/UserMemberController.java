@@ -101,5 +101,23 @@ public class UserMemberController {
 
 		return ResultData.from("S-1", Util.f("%s님 환영합니다.", foundMember.getNickname()));
 	}
+	
+	@RequestMapping("/usr/member/doLogout")
+	@ResponseBody
+	public ResultData doLogout(HttpSession httpSession) {
+		boolean isLogined = false;
+
+		if (httpSession.getAttribute("loginedMemberId") != null) {
+			isLogined = true;
+		}
+
+		if (isLogined == false) {
+			return ResultData.from("F-1", "로그인 상태가 아닙니다.");
+		}
+
+		httpSession.invalidate();
+
+		return ResultData.from("S-1", Util.f("정상적으로 로그아웃 되었습니다."));
+	}
 	// 액션 메소드 끝
 }
