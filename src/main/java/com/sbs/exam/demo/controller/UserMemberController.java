@@ -70,14 +70,9 @@ public class UserMemberController {
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
 	public ResultData doLogin(HttpSession httpSession, String loginId, String loginPw) {
-		boolean isLogined = false;
-
-		if (httpSession.getAttribute("loginedMemberId") != null) {
-			isLogined = true;
-		}
-
-		if (isLogined) {
-			return ResultData.from("F-5", "이미 로그인 상태입니다.");
+		
+		if (memberService.isLogined(httpSession) == true) {
+			return ResultData.from("F-B", "이미 로그인 상태입니다.");
 		}
 
 		if (Util.isParamEmpty(loginId)) {
@@ -105,14 +100,9 @@ public class UserMemberController {
 	@RequestMapping("/usr/member/doLogout")
 	@ResponseBody
 	public ResultData doLogout(HttpSession httpSession) {
-		boolean isLogined = false;
 
-		if (httpSession.getAttribute("loginedMemberId") != null) {
-			isLogined = true;
-		}
-
-		if (isLogined == false) {
-			return ResultData.from("F-1", "로그인 상태가 아닙니다.");
+		if (memberService.isLogined(httpSession) == false) {
+			return ResultData.from("F-A", "로그인 상태가 아닙니다.");
 		}
 
 		httpSession.invalidate();
@@ -120,4 +110,5 @@ public class UserMemberController {
 		return ResultData.from("S-1", Util.f("정상적으로 로그아웃 되었습니다."));
 	}
 	// 액션 메소드 끝
+	
 }

@@ -1,5 +1,7 @@
 package com.sbs.exam.demo.service;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +47,16 @@ public class MemberService {
 
 	public Member getMemberByLoginId(String loginId) {
 		return memberRepository.getMemberByLoginId(loginId);
+	}
+	
+	public boolean isLogined(HttpSession httpSession) {
+		boolean isLogined = false;
+
+		if (httpSession.getAttribute("loginedMemberId") != null) {
+			isLogined = true;
+		}
+		
+		return isLogined;
 	}
 
 }
