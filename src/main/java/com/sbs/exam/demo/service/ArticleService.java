@@ -2,6 +2,8 @@ package com.sbs.exam.demo.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,5 +42,24 @@ public class ArticleService {
 
 	public void modifyArticle(int id, String title, String body) {
 		articleRepository.modifyArticle(id, title, body);
+	}
+
+	public boolean isUsrAuthorized(HttpSession httpSession, int id) {
+		int loginedMemberId = (int) httpSession.getAttribute("loginedMemberId");
+		Article foundArticle = getFoundArticle(id);
+		
+		if (loginedMemberId != foundArticle.getMemberId()) {
+			return false;
+		}
+		return true;
+	}
+
+	public boolean isArticleExist(int id) {
+		Article foundArticle = getFoundArticle(id);
+		
+		if (foundArticle == null) {
+			return false;
+		}
+		return true;
 	}
 }

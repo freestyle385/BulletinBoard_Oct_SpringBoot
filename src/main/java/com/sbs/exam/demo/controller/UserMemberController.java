@@ -72,7 +72,7 @@ public class UserMemberController {
 	public ResultData doLogin(HttpSession httpSession, String loginId, String loginPw) {
 		
 		if (memberService.isLogined(httpSession) == true) {
-			return ResultData.from("F-B", "이미 로그인 상태입니다.");
+			return ResultData.from("F-A", "이미 로그인 상태입니다.");
 		}
 
 		if (Util.isParamEmpty(loginId)) {
