@@ -45,7 +45,7 @@ public class UserArticleController {
 
 		Article foundArticle = articleService.getFoundArticle(id);
 
-		return ResultData.newData(writeArticleRd, foundArticle);
+		return ResultData.newData(writeArticleRd, "article", foundArticle);
 	}
 
 	@RequestMapping("/usr/article/getArticles")
@@ -53,7 +53,7 @@ public class UserArticleController {
 	public ResultData<List<Article>> getArticles() {
 		List<Article> articles = articleService.getArticles();
 
-		return ResultData.from("S-1", Util.f("전체 게시물이 조회되었습니다."), articles);
+		return ResultData.from("S-1", "전체 게시물이 조회되었습니다.", "articles", articles);
 	}
 
 	@RequestMapping("/usr/article/getArticle")
@@ -65,7 +65,7 @@ public class UserArticleController {
 			return ResultData.from("F-1", Util.f("%d번 게시물은 존재하지 않습니다.", id));
 		}
 
-		return ResultData.from("S-1", Util.f("%d번 게시물이 조회되었습니다.", id), foundArticle);
+		return ResultData.from("S-1", Util.f("%d번 게시물이 조회되었습니다.", id), "article", foundArticle);
 	}
 
 	@RequestMapping("/usr/article/doDelete")
@@ -76,7 +76,7 @@ public class UserArticleController {
 			return ResultData.from("F-A", "로그인 후 이용해주세요.");
 		}
 		
-		if (articleService.isArticleExist(id) == false) {
+		if (articleService.isArticleExists(id) == false) {
 			return ResultData.from("F-1", Util.f("%d번 게시물은 존재하지 않습니다.", id));
 		}
 		
@@ -86,7 +86,7 @@ public class UserArticleController {
 		
 		articleService.deleteArticle(id);
 
-		return ResultData.from("S-1", Util.f("%d번 게시물이 삭제되었습니다.", id), id);
+		return ResultData.from("S-1", Util.f("%d번 게시물이 삭제되었습니다.", id), "id", id);
 	}
 
 	@RequestMapping("/usr/article/doModify")
@@ -97,7 +97,7 @@ public class UserArticleController {
 			return ResultData.from("F-A", "로그인 후 이용해주세요.");
 		}
 		
-		if (articleService.isArticleExist(id) == false) {
+		if (articleService.isArticleExists(id) == false) {
 			return ResultData.from("F-1", Util.f("%d번 게시물은 존재하지 않습니다.", id));
 		}
 		
@@ -109,7 +109,7 @@ public class UserArticleController {
 
 		Article modifiedArticle = articleService.getFoundArticle(id);
 
-		return ResultData.from("S-1", Util.f("%d번 게시물이 수정되었습니다.", id), modifiedArticle);
+		return ResultData.from("S-1", Util.f("%d번 게시물이 수정되었습니다.", id), "article", modifiedArticle);
 	}
 	// 액션 메소드 끝
 }

@@ -25,7 +25,7 @@ public class ArticleService {
 		articleRepository.writeArticle(memberId, title, body);
 		int id = articleRepository.getLastInsertId();
 
-		return ResultData.from("S-1", Util.f("%d번 게시물이 생성되었습니다.", id), id);
+		return ResultData.from("S-1", Util.f("%d번 게시물이 생성되었습니다.", id), "id", id);
 	}
 
 	public Article getFoundArticle(int id) {
@@ -54,7 +54,7 @@ public class ArticleService {
 		return true;
 	}
 
-	public boolean isArticleExist(int id) {
+	public boolean isArticleExists(int id) {
 		Article foundArticle = getFoundArticle(id);
 		
 		if (foundArticle == null) {

@@ -52,7 +52,7 @@ public class UserMemberController {
 
 		Member foundMember = memberService.getMemberById(joinRd.getData1());
 
-		return ResultData.newData(joinRd, foundMember);
+		return ResultData.newData(joinRd, "member", foundMember);
 	}
 
 	@RequestMapping("/usr/member/getMemberInfo")
@@ -64,7 +64,7 @@ public class UserMemberController {
 			return ResultData.from("F-1", Util.f("%d번 회원은 존재하지 않습니다.", id));
 		}
 
-		return ResultData.from("S-1", Util.f("%d번 회원이 조회되었습니다.", id), foundMember);
+		return ResultData.from("S-1", Util.f("%d번 회원이 조회되었습니다.", id), "member", foundMember);
 	}
 
 	@RequestMapping("/usr/member/doLogin")
