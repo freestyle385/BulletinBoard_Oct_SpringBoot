@@ -6,11 +6,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class UserHomeController {
-
+	
 	@RequestMapping("/usr/home/main")
-	@ResponseBody
-	public String getString() {
-		return "안녕하세요";
+	public String showMain() {
+		return "/usr/home/main";
+		// application.yml에 /WEB-INF/jsp/는 prifix, .jsp는 surfix로 설정되어 있으므로 생략 가능
+	}
+
+	@RequestMapping("/")
+	public String showRoot() {
+		return "redirect:/usr/home/main";
 	}
 
 }
