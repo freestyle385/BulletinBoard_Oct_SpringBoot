@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -48,12 +49,21 @@ public class UserArticleController {
 		return ResultData.newData(writeArticleRd, "article", foundArticle);
 	}
 
-	@RequestMapping("/usr/article/getArticles")
-	@ResponseBody
-	public ResultData<List<Article>> getArticles() {
-		List<Article> articles = articleService.getArticles();
+//	@RequestMapping("/usr/article/getArticles")
+//	@ResponseBody
+//	public ResultData<List<Article>> getArticles() {
+//		List<Article> articles = articleService.getArticles();
+//
+//		return ResultData.from("S-1", "전체 게시물이 조회되었습니다.", "articles", articles);
+//	}
 
-		return ResultData.from("S-1", "전체 게시물이 조회되었습니다.", "articles", articles);
+	@RequestMapping("/usr/article/list")
+	public String showList(Model model) {
+		List<Article> articles = articleService.getArticles();
+		
+		model.addAttribute("articles", articles);
+		
+		return "/usr/article/list";
 	}
 
 	@RequestMapping("/usr/article/getArticle")
@@ -71,19 +81,19 @@ public class UserArticleController {
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
 	public ResultData<Integer> doDelete(HttpSession httpSession, int id) {
-		
+
 		if (memberService.isLogined(httpSession) == false) {
 			return ResultData.from("F-A", "로그인 후 이용해주세요.");
 		}
-		
+
 		if (articleService.isArticleExists(id) == false) {
 			return ResultData.from("F-1", Util.f("%d번 게시물은 존재하지 않습니다.", id));
 		}
-		
+
 		if (articleService.isUsrAuthorized(httpSession, id) == false) {
 			return ResultData.from("F-B", "해당 게시물에 권한이 없습니다.");
 		}
-		
+
 		articleService.deleteArticle(id);
 
 		return ResultData.from("S-1", Util.f("%d번 게시물이 삭제되었습니다.", id), "id", id);
@@ -92,15 +102,15 @@ public class UserArticleController {
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
 	public ResultData<Article> doModify(HttpSession httpSession, int id, String title, String body) {
-		
+
 		if (memberService.isLogined(httpSession) == false) {
 			return ResultData.from("F-A", "로그인 후 이용해주세요.");
 		}
-		
+
 		if (articleService.isArticleExists(id) == false) {
 			return ResultData.from("F-1", Util.f("%d번 게시물은 존재하지 않습니다.", id));
 		}
-		
+
 		if (articleService.isUsrAuthorized(httpSession, id) == false) {
 			return ResultData.from("F-B", "해당 게시물에 권한이 없습니다.");
 		}
