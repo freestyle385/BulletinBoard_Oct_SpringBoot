@@ -7,6 +7,10 @@
 <head>
 <meta charset="UTF-8">
 <title>게시물 리스트</title>
+
+<link rel="stylesheet" href="/resourse/common.css" />
+<script src="/resourse/common.js"></script>
+
 </head>
 <body>
   <h1>전체 게시물이 조회되었습니다.</h1>
