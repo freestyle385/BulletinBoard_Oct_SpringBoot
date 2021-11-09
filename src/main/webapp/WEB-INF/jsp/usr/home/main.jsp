@@ -1,33 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>메인</title>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
-<link rel="stylesheet" href="/resourse/common.css" />
-<script src="/resourse/common.js"></script>
+<c:set var="pageTitle" value="게시물 리스트" />
 
-</head>
-<body>
-  <h1>메인페이지</h1>
+<%@ include file="../common/head.jspf"%>
 
-  <header>
-    <a href="/">사이트A</a>
+<div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque fuga doloribus pariatur nemo aperiam aut
+  suscipit architecto itaque modi delectus. Ratione quis fuga nihil rerum recusandae fugiat quibusdam nesciunt pariatur!</div>
 
-    <ul>
-      <li>
-        <a href="/">홈</a>
-      </li>
-      <li>
-        <a href="../../usr/article/list">리스트</a>
-      </li>
-    </ul>
-  </header>
-
-  <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque fuga doloribus pariatur nemo aperiam aut
-    suscipit architecto itaque modi delectus. Ratione quis fuga nihil rerum recusandae fugiat quibusdam nesciunt
-    pariatur!</div>
-
-</body>
-</html>
+<%@ include file="../common/foot.jspf"%>
