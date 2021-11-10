@@ -60,22 +60,31 @@ public class UserArticleController {
 	@RequestMapping("/usr/article/list")
 	public String showList(Model model) {
 		List<Article> articles = articleService.getArticles();
-		
+
 		model.addAttribute("articles", articles);
-		
+
 		return "/usr/article/list";
 	}
 
-	@RequestMapping("/usr/article/getArticle")
-	@ResponseBody
-	public ResultData<Article> getArticle(int id) {
+//	@RequestMapping("/usr/article/getArticle")
+//	@ResponseBody
+//	public ResultData<Article> getArticle(int id) {
+//		Article foundArticle = articleService.getFoundArticle(id);
+//
+//		if (foundArticle == null) {
+//			return ResultData.from("F-1", Util.f("%d번 게시물은 존재하지 않습니다.", id));
+//		}
+//
+//		return ResultData.from("S-1", Util.f("%d번 게시물이 조회되었습니다.", id), "article", foundArticle);
+//	}
+
+	@RequestMapping("/usr/article/detail")
+	public String showDetail(Model model, int id) {
 		Article foundArticle = articleService.getFoundArticle(id);
+		
+		model.addAttribute("foundArticle", foundArticle);
 
-		if (foundArticle == null) {
-			return ResultData.from("F-1", Util.f("%d번 게시물은 존재하지 않습니다.", id));
-		}
-
-		return ResultData.from("S-1", Util.f("%d번 게시물이 조회되었습니다.", id), "article", foundArticle);
+		return "/usr/article/detail";
 	}
 
 	@RequestMapping("/usr/article/doDelete")
