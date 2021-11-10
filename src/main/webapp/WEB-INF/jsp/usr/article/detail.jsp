@@ -40,8 +40,10 @@
         </tbody>
       </table>
     </div>
-    <div class="btns">
-      <button type="button" onclick="history.back();">뒤로가기</button>
+    <div class="btns mt-2">
+      <button class="btn-text-link" type="button" onclick="history.back();">뒤로가기</button>
+      <a class="btn-text-link" href="../article/modify?id=${foundArticle.id }">수정하기</a>
+      <a class="btn-text-link" onclick="if (confirm('게시물을 삭제하시겠습니까?') == false) {return false};" href="../article/doDelete?id=${foundArticle.id }">삭제하기</a>
     </div>
   </div>
 </section>
