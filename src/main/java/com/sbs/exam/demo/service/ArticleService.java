@@ -28,12 +28,12 @@ public class ArticleService {
 		return ResultData.from("S-1", Util.f("%d번 게시물이 생성되었습니다.", id), "id", id);
 	}
 
-	public Article getFoundArticle(int id) {
-		return articleRepository.getFoundArticle(id);
+	public Article getForPrintArticle(int id) {
+		return articleRepository.getForPrintArticle(id);
 	}
 
-	public List<Article> getArticles() {
-		return articleRepository.getArticles();
+	public List<Article> getForPrintArticles() {
+		return articleRepository.getForPrintArticles();
 	}
 
 	public void deleteArticle(int id) {
@@ -46,7 +46,7 @@ public class ArticleService {
 
 	public boolean isUsrAuthorized(HttpSession httpSession, int id) {
 		int loginedMemberId = (int) httpSession.getAttribute("loginedMemberId");
-		Article foundArticle = getFoundArticle(id);
+		Article foundArticle = getForPrintArticle(id);
 		
 		if (loginedMemberId != foundArticle.getMemberId()) {
 			return false;
@@ -55,7 +55,7 @@ public class ArticleService {
 	}
 
 	public boolean isArticleExists(int id) {
-		Article foundArticle = getFoundArticle(id);
+		Article foundArticle = getForPrintArticle(id);
 		
 		if (foundArticle == null) {
 			return false;

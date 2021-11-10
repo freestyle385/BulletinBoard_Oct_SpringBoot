@@ -44,7 +44,7 @@ public class UserArticleController {
 		ResultData<Integer> writeArticleRd = articleService.writeArticle(memberId, title, body);
 		int id = writeArticleRd.getData1();
 
-		Article foundArticle = articleService.getFoundArticle(id);
+		Article foundArticle = articleService.getForPrintArticle(id);
 
 		return ResultData.newData(writeArticleRd, "article", foundArticle);
 	}
@@ -59,7 +59,7 @@ public class UserArticleController {
 
 	@RequestMapping("/usr/article/list")
 	public String showList(Model model) {
-		List<Article> articles = articleService.getArticles();
+		List<Article> articles = articleService.getForPrintArticles();
 
 		model.addAttribute("articles", articles);
 
@@ -80,7 +80,7 @@ public class UserArticleController {
 
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(Model model, int id) {
-		Article foundArticle = articleService.getFoundArticle(id);
+		Article foundArticle = articleService.getForPrintArticle(id);
 		
 		model.addAttribute("foundArticle", foundArticle);
 
@@ -126,7 +126,7 @@ public class UserArticleController {
 
 		articleService.modifyArticle(id, title, body);
 
-		Article modifiedArticle = articleService.getFoundArticle(id);
+		Article modifiedArticle = articleService.getForPrintArticle(id);
 
 		return ResultData.from("S-1", Util.f("%d번 게시물이 수정되었습니다.", id), "article", modifiedArticle);
 	}

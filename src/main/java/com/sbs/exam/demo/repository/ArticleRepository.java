@@ -12,9 +12,9 @@ public interface ArticleRepository {
 	
 	public void writeArticle(@Param("memberId") int memberId, @Param("title") String title, @Param("body") String body);
 	
-	public Article getFoundArticle(@Param("id") int id);
+	public Article getForPrintArticle(@Param("id") int id);
 	
-	public List<Article> getArticles();
+	public List<Article> getForPrintArticles();
 	
 	public void deleteArticle(@Param("id") int id);
 	

@@ -15,27 +15,27 @@
         <tbody>
           <tr>
             <th>번호</th>
-            <td>${article.id}</td>
+            <td>${foundArticle.id}</td>
           </tr>
           <tr>
             <th>작성날짜</th>
-            <td>${article.regDate.substring(2, 16)}</td>
+            <td>${foundArticle.regDate.substring(2, 16)}</td>
           </tr>
           <tr>
             <th>수정날짜</th>
-            <td>${article.updateDate.substring(2, 16)}</td>
+            <td>${foundArticle.updateDate.substring(2, 16)}</td>
           </tr>
           <tr>
             <th>작성자</th>
-            <td>${article.memberId}</td>
+            <td>${foundArticle.extra__writerName}</td>
           </tr>
           <tr>
             <th>제목</th>
-            <td>${article.title}</td>
+            <td>${foundArticle.title}</td>
           </tr>
           <tr>
             <th>내용</th>
-            <td>${article.body}</td>
+            <td>${foundArticle.body}</td>
           </tr>
         </tbody>
       </table>
