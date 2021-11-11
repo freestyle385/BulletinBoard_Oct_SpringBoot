@@ -2,11 +2,13 @@ package com.sbs.exam.demo.service;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.sbs.exam.demo.controller.Rq;
 import com.sbs.exam.demo.repository.ArticleRepository;
 import com.sbs.exam.demo.util.Util;
 import com.sbs.exam.demo.vo.Article;
@@ -44,11 +46,10 @@ public class ArticleService {
 		articleRepository.modifyArticle(id, title, body);
 	}
 
-	public boolean isUsrAuthorized(HttpSession httpSession, int id) {
-		int loginedMemberId = (int) httpSession.getAttribute("loginedMemberId");
+	public boolean isUsrAuthorized(Rq rq, int id) {
 		Article foundArticle = getForPrintArticle(id);
 		
-		if (loginedMemberId != foundArticle.getMemberId()) {
+		if (rq.getLoginedMemberId() != foundArticle.getMemberId()) {
 			return false;
 		}
 		return true;

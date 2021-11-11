@@ -2,7 +2,7 @@ package com.sbs.exam.demo.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sbs.exam.demo.service.ArticleService;
-import com.sbs.exam.demo.service.MemberService;
 import com.sbs.exam.demo.util.Util;
 import com.sbs.exam.demo.vo.Article;
 import com.sbs.exam.demo.vo.ResultData;
@@ -20,15 +19,15 @@ import com.sbs.exam.demo.vo.ResultData;
 public class UserArticleController {
 	@Autowired // 등록된 컴포넌트를 자동으로 연결 해줌
 	private ArticleService articleService;
-	@Autowired
-	private MemberService memberService;
-
+	
 	// 액션 메소드 시작
 	@RequestMapping("/usr/article/doAdd")
 	@ResponseBody
-	public ResultData<Article> doAdd(HttpSession httpSession, String title, String body) {
-
-		if (memberService.isLogined(httpSession) == false) {
+	public ResultData<Article> doAdd(HttpServletRequest req, String title, String body) {
+		
+		Rq rq = new Rq(req);
+		
+		if (rq.isLogined() == false) {
 			return ResultData.from("F-A", "로그인 후 이용해주세요.");
 		}
 
@@ -39,9 +38,7 @@ public class UserArticleController {
 			return ResultData.from("F-2", "내용을 입력해주세요.");
 		}
 
-		int memberId = (int) httpSession.getAttribute("loginedMemberId");
-
-		ResultData<Integer> writeArticleRd = articleService.writeArticle(memberId, title, body);
+		ResultData<Integer> writeArticleRd = articleService.writeArticle(rq.getLoginedMemberId(), title, body);
 		int id = writeArticleRd.getData1();
 
 		Article foundArticle = articleService.getForPrintArticle(id);
@@ -110,9 +107,11 @@ public class UserArticleController {
 
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
-	public String doDelete(HttpSession httpSession, int id) {
-
-		if (memberService.isLogined(httpSession) == false) {
+	public String doDelete(HttpServletRequest req, int id) {
+		
+		Rq rq = new Rq(req);
+		
+		if (rq.isLogined() == false) {
 			return Util.jsReplace(Util.f("로그인 후 이용해주세요."), "detail?id", id);
 		}
 
@@ -120,7 +119,7 @@ public class UserArticleController {
 			return Util.jsReplace(Util.f("%d번 게시물은 존재하지 않습니다.", id), "detail?id", id);
 		}
 
-		if (articleService.isUsrAuthorized(httpSession, id) == false) {
+		if (articleService.isUsrAuthorized(rq, id) == false) {
 			return Util.jsReplace(Util.f("해당 게시물에 권한이 없습니다."), "detail?id", id);
 		}
 
@@ -131,9 +130,11 @@ public class UserArticleController {
 
 	@RequestMapping("/usr/article/modify")
 	@ResponseBody
-	public ResultData<Article> doModify(HttpSession httpSession, int id, String title, String body) {
-
-		if (memberService.isLogined(httpSession) == false) {
+	public ResultData<Article> doModify(HttpServletRequest req, int id, String title, String body) {
+		
+		Rq rq = new Rq(req);
+		
+		if (rq.isLogined() == false) {
 			return ResultData.from("F-A", "로그인 후 이용해주세요.");
 		}
 
@@ -141,7 +142,7 @@ public class UserArticleController {
 			return ResultData.from("F-1", Util.f("%d번 게시물은 존재하지 않습니다.", id));
 		}
 
-		if (articleService.isUsrAuthorized(httpSession, id) == false) {
+		if (articleService.isUsrAuthorized(rq, id) == false) {
 			return ResultData.from("F-B", "해당 게시물에 권한이 없습니다.");
 		}
 
