@@ -81,31 +81,52 @@ public class UserArticleController {
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(Model model, int id) {
 		Article foundArticle = articleService.getForPrintArticle(id);
-		
+
 		model.addAttribute("foundArticle", foundArticle);
 
 		return "/usr/article/detail";
 	}
 
+//	@RequestMapping("/usr/article/doDelete")
+//	@ResponseBody
+//	public ResultData<Integer> doDelete(HttpSession httpSession, int id) {
+//
+//		if (memberService.isLogined(httpSession) == false) {
+//			return ResultData.from("F-A", "로그인 후 이용해주세요.");
+//		}
+//
+//		if (articleService.isArticleExists(id) == false) {
+//			return ResultData.from("F-1", Util.f("%d번 게시물은 존재하지 않습니다.", id));
+//		}
+//
+//		if (articleService.isUsrAuthorized(httpSession, id) == false) {
+//			return ResultData.from("F-B", "해당 게시물에 권한이 없습니다.");
+//		}
+//
+//		articleService.deleteArticle(id);
+//
+//		return ResultData.from("S-1", Util.f("%d번 게시물이 삭제되었습니다.", id), "id", id);
+//	}
+
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
-	public ResultData<Integer> doDelete(HttpSession httpSession, int id) {
+	public String doDelete(HttpSession httpSession, int id) {
 
 		if (memberService.isLogined(httpSession) == false) {
-			return ResultData.from("F-A", "로그인 후 이용해주세요.");
+			return Util.jsReplace(Util.f("로그인 후 이용해주세요."), "detail?id", id);
 		}
 
 		if (articleService.isArticleExists(id) == false) {
-			return ResultData.from("F-1", Util.f("%d번 게시물은 존재하지 않습니다.", id));
+			return Util.jsReplace(Util.f("%d번 게시물은 존재하지 않습니다.", id), "detail?id", id);
 		}
 
 		if (articleService.isUsrAuthorized(httpSession, id) == false) {
-			return ResultData.from("F-B", "해당 게시물에 권한이 없습니다.");
+			return Util.jsReplace(Util.f("해당 게시물에 권한이 없습니다."), "detail?id", id);
 		}
 
 		articleService.deleteArticle(id);
 
-		return ResultData.from("S-1", Util.f("%d번 게시물이 삭제되었습니다.", id), "id", id);
+		return Util.jsReplace(Util.f("%d번 게시물이 삭제되었습니다.", id), "list");
 	}
 
 	@RequestMapping("/usr/article/modify")
