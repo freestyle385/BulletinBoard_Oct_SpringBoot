@@ -5,13 +5,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+
+import com.sbs.exam.demo.vo.Rq;
 @Component
 public class BeforeActionInterceptor implements HandlerInterceptor{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
-		// 추후 구현 예정
+		Rq rq = new Rq(request);
+		request.setAttribute("rq", rq);
+		
 		return HandlerInterceptor.super.preHandle(request, response, handler);
 	}
 }

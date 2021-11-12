@@ -14,6 +14,7 @@ import com.sbs.exam.demo.service.ArticleService;
 import com.sbs.exam.demo.util.Util;
 import com.sbs.exam.demo.vo.Article;
 import com.sbs.exam.demo.vo.ResultData;
+import com.sbs.exam.demo.vo.Rq;
 
 @Controller
 public class UserArticleController {
@@ -25,7 +26,7 @@ public class UserArticleController {
 	@ResponseBody
 	public ResultData<Article> doAdd(HttpServletRequest req, String title, String body) {
 		
-		Rq rq = new Rq(req);
+		Rq rq = (Rq) req.getAttribute("rq");
 		
 		if (rq.isLogined() == false) {
 			return ResultData.from("F-A", "로그인 후 이용해주세요.");
@@ -109,7 +110,7 @@ public class UserArticleController {
 	@ResponseBody
 	public String doDelete(HttpServletRequest req, int id) {
 		
-		Rq rq = new Rq(req);
+		Rq rq = (Rq) req.getAttribute("rq");
 		
 		if (rq.isLogined() == false) {
 			return Util.jsReplace(Util.f("로그인 후 이용해주세요."), "detail?id", id);
@@ -132,7 +133,7 @@ public class UserArticleController {
 	@ResponseBody
 	public ResultData<Article> doModify(HttpServletRequest req, int id, String title, String body) {
 		
-		Rq rq = new Rq(req);
+		Rq rq = (Rq) req.getAttribute("rq");
 		
 		if (rq.isLogined() == false) {
 			return ResultData.from("F-A", "로그인 후 이용해주세요.");
