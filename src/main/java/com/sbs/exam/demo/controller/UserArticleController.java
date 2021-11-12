@@ -27,10 +27,6 @@ public class UserArticleController {
 	public ResultData<Article> doAdd(HttpServletRequest req, String title, String body) {
 		
 		Rq rq = (Rq) req.getAttribute("rq");
-		
-		if (rq.isLogined() == false) {
-			return ResultData.from("F-A", "로그인 후 이용해주세요.");
-		}
 
 		if (Util.isParamEmpty(title)) {
 			return ResultData.from("F-1", "제목을 입력해주세요.");
@@ -111,10 +107,6 @@ public class UserArticleController {
 	public String doDelete(HttpServletRequest req, int id) {
 		
 		Rq rq = (Rq) req.getAttribute("rq");
-		
-		if (rq.isLogined() == false) {
-			return Util.jsReplace(Util.f("로그인 후 이용해주세요."), "detail?id", id);
-		}
 
 		if (articleService.isArticleExists(id) == false) {
 			return Util.jsReplace(Util.f("%d번 게시물은 존재하지 않습니다.", id), "detail?id", id);
@@ -134,10 +126,6 @@ public class UserArticleController {
 	public ResultData<Article> doModify(HttpServletRequest req, int id, String title, String body) {
 		
 		Rq rq = (Rq) req.getAttribute("rq");
-		
-		if (rq.isLogined() == false) {
-			return ResultData.from("F-A", "로그인 후 이용해주세요.");
-		}
 
 		if (articleService.isArticleExists(id) == false) {
 			return ResultData.from("F-1", Util.f("%d번 게시물은 존재하지 않습니다.", id));
