@@ -10,21 +10,23 @@ import com.sbs.exam.demo.interceptor.BeforeActionInterceptor;
 import com.sbs.exam.demo.interceptor.NeedLoginInterceptor;
 
 @Configuration
-public class MyWebConfig implements WebMvcConfigurer{
-	
+public class MyWebConfig implements WebMvcConfigurer {
+
 	@Autowired
 	BeforeActionInterceptor beforeActionInterceptor;
 	@Autowired
 	NeedLoginInterceptor needLoginInterceptor;
-	
+
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		
+
 		InterceptorRegistration interceptorRegistration = registry.addInterceptor(beforeActionInterceptor);
 		interceptorRegistration.addPathPatterns("/**").excludePathPatterns("/resource/**");
-		// addPathPatterns("/**")는 전체 url을 인터셉트하게함. excludePathPatterns는 그 중 예외할 것(이미지와 같은 정적 자원).
+		// addPathPatterns("/**")는 전체 url을 인터셉트하게함. excludePathPatterns는 그 중 예외할 것(이미지와
+		// 같은 정적 자원).
 		// 추가할 것은 뒤에 .붙인 후 쭉 이어서 적어나갈 수 있음.
-		
-		registry.addInterceptor(needLoginInterceptor).addPathPatterns("/usr/article/doAdd").addPathPatterns("/usr/article/modify").addPathPatterns("/usr/article/doDelete");
+
+		registry.addInterceptor(needLoginInterceptor).addPathPatterns("/usr/article/doAdd")
+				.addPathPatterns("/usr/article/modify").addPathPatterns("/usr/article/doDelete");
 	}
 }

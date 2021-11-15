@@ -109,11 +109,11 @@ public class UserArticleController {
 		Rq rq = (Rq) req.getAttribute("rq");
 
 		if (articleService.isArticleExists(id) == false) {
-			return Util.jsReplace(Util.f("%d번 게시물은 존재하지 않습니다.", id), "detail?id", id);
+			return Util.jsHistoryBack(Util.f("%d번 게시물은 존재하지 않습니다.", id));
 		}
 
 		if (articleService.isUsrAuthorized(rq, id) == false) {
-			return Util.jsReplace(Util.f("해당 게시물에 권한이 없습니다."), "detail?id", id);
+			return Util.jsHistoryBack(Util.f("해당 게시물에 권한이 없습니다."));
 		}
 
 		articleService.deleteArticle(id);

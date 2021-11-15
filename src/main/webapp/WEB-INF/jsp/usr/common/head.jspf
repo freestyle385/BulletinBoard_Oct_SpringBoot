@@ -7,7 +7,7 @@
 <title>${pageTitle}</title>
 
 <!-- 제이쿼리 -->
-<scrpit src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></scrpit>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <!-- 테일윈드 JIT -->
 <script src="https://unpkg.com/tailwindcss-jit-cdn"></script>
@@ -40,11 +40,20 @@
             <span>리스트</span>
           </a>
         </li>
-        <li>
+        <c:if test="${!rq.isLogined() }">
+          <li>
           <a class="h-full flex items-center px-3 hover:underline" href="/usr/member/login">
             <span>로그인</span>
           </a>
         </li>
+        </c:if>
+        <c:if test="${rq.isLogined() }">
+          <li>
+          <a class="h-full flex items-center px-3 hover:underline" href="/usr/member/doLogout">
+            <span>로그아웃</span>
+          </a>
+        </li>
+        </c:if>
       </ul>
     </div>
   </header>
