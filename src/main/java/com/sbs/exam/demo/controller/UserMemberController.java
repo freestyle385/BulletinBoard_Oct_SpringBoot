@@ -70,8 +70,13 @@ public class UserMemberController {
 	}
 
 	@RequestMapping("/usr/member/login")
-	public String showLogin() {
+	public String showLogin(HttpServletRequest req) {
+		Rq rq = (Rq) req.getAttribute("rq");
 
+		if (rq.isLogined()) {
+			return rq.historyBackOnView("이미 로그인 상태입니다.");
+		}
+		
 		return "usr/member/login";
 	}
 
@@ -79,10 +84,6 @@ public class UserMemberController {
 	@ResponseBody
 	public String doLogin(HttpServletRequest req, String loginId, String loginPw) {
 		Rq rq = (Rq) req.getAttribute("rq");
-		
-		if (rq.isLogined()) {
-			return Util.jsHistoryBack("이미 로그인 상태입니다.");
-		}
 		
 		if (Util.isParamEmpty(loginId)) {
 			return Util.jsHistoryBack("loginId을(를) 입력해주세요.");
@@ -102,7 +103,7 @@ public class UserMemberController {
 		}
 
 		rq.login(foundMember);
-		
+
 		return Util.jsReplace(Util.f("%s님 환영합니다.", foundMember.getNickname()), "/");
 	}
 
@@ -110,11 +111,11 @@ public class UserMemberController {
 	@ResponseBody
 	public String doLogout(HttpServletRequest req) {
 		Rq rq = (Rq) req.getAttribute("rq");
-		
+
 		if (!rq.isLogined()) {
 			return Util.jsHistoryBack("로그인 상태가 아닙니다.");
 		}
-		
+
 		rq.logout();
 
 		return Util.jsReplace("정상적으로 로그아웃 되었습니다.", "/");

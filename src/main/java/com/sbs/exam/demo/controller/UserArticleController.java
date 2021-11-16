@@ -113,7 +113,7 @@ public class UserArticleController {
 		}
 
 		if (articleService.isUsrAuthorized(rq, id) == false) {
-			return Util.jsHistoryBack(Util.f("해당 게시물에 권한이 없습니다."));
+			return Util.jsHistoryBack("해당 게시물에 권한이 없습니다.");
 		}
 
 		articleService.deleteArticle(id);
@@ -131,7 +131,7 @@ public class UserArticleController {
 		}
 
 		if (articleService.isUsrAuthorized(rq, id) == false) {
-			return rq.historyBackOnView(Util.f("해당 게시물에 권한이 없습니다."));
+			return rq.historyBackOnView("해당 게시물에 권한이 없습니다.");
 		}
 		
 		Article foundArticle = articleService.getForPrintArticle(id);
@@ -142,9 +142,7 @@ public class UserArticleController {
 	
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public String doModify(HttpServletRequest req, int id, String title, String body) {
-		
-		Rq rq = (Rq) req.getAttribute("rq");
+	public String doModify(int id, String title, String body) {
 		
 		articleService.modifyArticle(id, title, body);
 
