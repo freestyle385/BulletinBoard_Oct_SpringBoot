@@ -70,7 +70,7 @@ public class UserMemberController {
 	}
 
 	@RequestMapping("/usr/member/login")
-	public String showLogin(HttpSession httpSession) {
+	public String showLogin() {
 
 		return "usr/member/login";
 	}
@@ -108,15 +108,16 @@ public class UserMemberController {
 
 	@RequestMapping("/usr/member/doLogout")
 	@ResponseBody
-	public ResultData doLogout(HttpSession httpSession) {
-
-		if (memberService.isLogined(httpSession) == false) {
-			return ResultData.from("F-A", "로그인 상태가 아닙니다.");
+	public String doLogout(HttpServletRequest req) {
+		Rq rq = (Rq) req.getAttribute("rq");
+		
+		if (!rq.isLogined()) {
+			return Util.jsHistoryBack("로그인 상태가 아닙니다.");
 		}
+		
+		rq.logout();
 
-		httpSession.invalidate();
-
-		return ResultData.from("S-1", Util.f("정상적으로 로그아웃 되었습니다."));
+		return Util.jsReplace("정상적으로 로그아웃 되었습니다.", "/");
 	}
 	// 액션 메소드 끝
 

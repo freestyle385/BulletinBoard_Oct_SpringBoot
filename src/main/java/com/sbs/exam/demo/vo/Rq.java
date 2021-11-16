@@ -43,7 +43,7 @@ public class Rq {
 		resp.setContentType("text/html; charset=utf-8");
 		print("<script>");
 		print("alert('로그인 후 이용해주세요.');");
-		print("history.back();");
+		print("location.replace('/usr/member/login');");
 		print("</script>");
 	}
 
@@ -57,5 +57,10 @@ public class Rq {
 
 	public void login(Member foundMember) {
 		session.setAttribute("loginedMemberId", foundMember.getId());
+	}
+
+	public void logout() {
+		session.invalidate();
+		
 	}
 }
