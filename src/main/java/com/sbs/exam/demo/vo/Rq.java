@@ -16,21 +16,21 @@ public class Rq {
 	private int loginedMemberId;
 	
 	private HttpServletRequest req;
-	private HttpServletResponse res;
-	private HttpSession httpSession;
+	private HttpServletResponse resp;
+	private HttpSession session;
 
-	public Rq(HttpServletRequest req, HttpServletResponse res) {
+	public Rq(HttpServletRequest req, HttpServletResponse resp) {
 		
-		this.httpSession = req.getSession();
+		this.session = req.getSession();
 		this.req = req;
-		this.res = res;
+		this.resp = resp;
 		
 		boolean isLogined = false;
 		int loginedMemberId = 0;
 
-		if (httpSession.getAttribute("loginedMemberId") != null) {
+		if (session.getAttribute("loginedMemberId") != null) {
 			isLogined = true;
-			loginedMemberId = (int) httpSession.getAttribute("loginedMemberId");
+			loginedMemberId = (int) session.getAttribute("loginedMemberId");
 		}
 
 		this.isLogined = isLogined;
@@ -40,7 +40,7 @@ public class Rq {
 
 	public void printHistorybackJs() {
 		
-		res.setContentType("text/html; charset=utf-8");
+		resp.setContentType("text/html; charset=utf-8");
 		print("<script>");
 		print("alert('로그인 후 이용해주세요.');");
 		print("history.back();");
@@ -49,9 +49,13 @@ public class Rq {
 
 	public void print(String msg) {
 		try {
-			res.getWriter().append(msg);
+			resp.getWriter().append(msg);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void login(Member foundMember) {
+		session.setAttribute("loginedMemberId", foundMember.getId());
 	}
 }

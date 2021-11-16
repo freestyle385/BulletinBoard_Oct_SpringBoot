@@ -1,5 +1,6 @@
 package com.sbs.exam.demo.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import com.sbs.exam.demo.service.MemberService;
 import com.sbs.exam.demo.util.Util;
 import com.sbs.exam.demo.vo.Member;
 import com.sbs.exam.demo.vo.ResultData;
+import com.sbs.exam.demo.vo.Rq;
 
 @Controller
 public class UserMemberController {
@@ -75,8 +77,10 @@ public class UserMemberController {
 
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
-	public String doLogin(HttpSession httpSession, String loginId, String loginPw) {
-		if (memberService.isLogined(httpSession) == true) {
+	public String doLogin(HttpServletRequest req, String loginId, String loginPw) {
+		Rq rq = (Rq) req.getAttribute("rq");
+		
+		if (rq.isLogined()) {
 			return Util.jsHistoryBack("이미 로그인 상태입니다.");
 		}
 		
@@ -97,7 +101,7 @@ public class UserMemberController {
 			return Util.jsHistoryBack("비밀번호가 일치하지 않습니다.");
 		}
 
-		httpSession.setAttribute("loginedMemberId", foundMember.getId());
+		rq.login(foundMember);
 		
 		return Util.jsReplace(Util.f("%s님 환영합니다.", foundMember.getNickname()), "/");
 	}
