@@ -122,24 +122,33 @@ public class UserArticleController {
 	}
 
 	@RequestMapping("/usr/article/modify")
-	@ResponseBody
-	public ResultData<Article> doModify(HttpServletRequest req, int id, String title, String body) {
+	public String modify(Model model, HttpServletRequest req, int id, String title, String body) {
 		
 		Rq rq = (Rq) req.getAttribute("rq");
-
+		
 		if (articleService.isArticleExists(id) == false) {
-			return ResultData.from("F-1", Util.f("%d번 게시물은 존재하지 않습니다.", id));
+			return rq.historyBackOnView(Util.f("%d번 게시물은 존재하지 않습니다.", id));
 		}
 
 		if (articleService.isUsrAuthorized(rq, id) == false) {
-			return ResultData.from("F-B", "해당 게시물에 권한이 없습니다.");
+			return rq.historyBackOnView(Util.f("해당 게시물에 권한이 없습니다."));
 		}
+		
+		Article foundArticle = articleService.getForPrintArticle(id);
+		model.addAttribute("foundArticle", foundArticle);
 
+		return "/usr/article/modify";
+	}
+	
+	@RequestMapping("/usr/article/doModify")
+	@ResponseBody
+	public String doModify(HttpServletRequest req, int id, String title, String body) {
+		
+		Rq rq = (Rq) req.getAttribute("rq");
+		
 		articleService.modifyArticle(id, title, body);
 
-		Article modifiedArticle = articleService.getForPrintArticle(id);
-
-		return ResultData.from("S-1", Util.f("%d번 게시물이 수정되었습니다.", id), "article", modifiedArticle);
+		return Util.jsReplace(Util.f("%d번 게시물이 수정되었습니다.", id), "list");
 	}
 	// 액션 메소드 끝
 }

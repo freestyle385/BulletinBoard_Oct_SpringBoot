@@ -29,6 +29,6 @@ public class MyWebConfig implements WebMvcConfigurer {
 		// 추가할 것은 뒤에 .붙인 후 쭉 이어서 적어나갈 수 있음.
 
 		registry.addInterceptor(needLoginInterceptor).addPathPatterns("/usr/article/doAdd")
-				.addPathPatterns("/usr/article/modify").addPathPatterns("/usr/article/doDelete");
+				.addPathPatterns("/usr/article/modify").addPathPatterns("/usr/article/doModify").addPathPatterns("/usr/article/doDelete");
 	}
 }
