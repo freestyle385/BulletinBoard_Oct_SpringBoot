@@ -71,11 +71,6 @@ public class UserMemberController {
 
 	@RequestMapping("/usr/member/login")
 	public String showLogin(HttpServletRequest req) {
-		Rq rq = (Rq) req.getAttribute("rq");
-
-		if (rq.isLogined()) {
-			return rq.historyBackOnView("이미 로그인 상태입니다.");
-		}
 		
 		return "usr/member/login";
 	}
@@ -111,10 +106,6 @@ public class UserMemberController {
 	@ResponseBody
 	public String doLogout(HttpServletRequest req) {
 		Rq rq = (Rq) req.getAttribute("rq");
-
-		if (!rq.isLogined()) {
-			return Util.jsHistoryBack("로그인 상태가 아닙니다.");
-		}
 
 		rq.logout();
 

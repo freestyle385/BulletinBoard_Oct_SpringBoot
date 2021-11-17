@@ -22,9 +22,9 @@ public class UserArticleController {
 	private ArticleService articleService;
 	
 	// 액션 메소드 시작
-	@RequestMapping("/usr/article/doAdd")
+	@RequestMapping("/usr/article/write")
 	@ResponseBody
-	public ResultData<Article> doAdd(HttpServletRequest req, String title, String body) {
+	public ResultData<Article> write(HttpServletRequest req, String title, String body) {
 		
 		Rq rq = (Rq) req.getAttribute("rq");
 

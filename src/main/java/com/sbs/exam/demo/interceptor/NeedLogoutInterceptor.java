@@ -9,15 +9,15 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import com.sbs.exam.demo.vo.Rq;
 
 @Component
-public class NeedLoginInterceptor implements HandlerInterceptor{
+public class NeedLogoutInterceptor implements HandlerInterceptor{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
 		Rq rq = (Rq) request.getAttribute("rq");
 		
-		if(!rq.isLogined()) {
-			rq.printHistoryBackJs("로그인 후 이용해주세요!");
+		if(rq.isLogined()) {
+			rq.printHistoryBackJs("로그아웃 후 이용해주세요!");
 			return false;
 		}
 		
