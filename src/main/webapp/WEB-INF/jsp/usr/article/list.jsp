@@ -40,6 +40,9 @@
         </tbody>
       </table>
     </div>
+    <div class="btns mt-2">
+      <a class="btn-text-link" href="../article/write">글쓰기</a>
+    </div>
   </div>
 </section>
 <%@ include file="../common/foot.jspf"%>

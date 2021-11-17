@@ -14,15 +14,31 @@
         </colgroup>
         <tbody>
           <tr>
+            <th>번호</th>
+            <td>${foundArticle.id}</td>
+          </tr>
+          <tr>
+            <th>작성날짜</th>
+            <td>${foundArticle.regDate.substring(2, 16)}</td>
+          </tr>
+          <tr>
+            <th>수정날짜</th>
+            <td>${foundArticle.updateDate.substring(2, 16)}</td>
+          </tr>
+          <tr>
+            <th>작성자</th>
+            <td>${foundArticle.extra__writerName}</td>
+          </tr>
+          <tr>
             <th>제목</th>
             <td>
-              <input name="title" value="${foundArticle.title}" type="text" />
+              <input name="title" class="w-full" value="${foundArticle.title}" type="text" />
             </td>
           </tr>
           <tr>
             <th>내용</th>
             <td>
-              <textarea name="body" autocomplete="off" />${foundArticle.body}</textarea>
+              <textarea name="body" class="w-full" rows="20" autocomplete="off" />${foundArticle.body}</textarea>
             </td>
           </tr>
         </tbody>

@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sbs.exam.demo.repository.ArticleRepository;
-import com.sbs.exam.demo.util.Util;
 import com.sbs.exam.demo.vo.Article;
-import com.sbs.exam.demo.vo.ResultData;
 import com.sbs.exam.demo.vo.Rq;
 
 @Service
@@ -20,11 +18,9 @@ public class ArticleService {
 		this.articleRepository = articleRepository;
 	}
 
-	public ResultData<Integer> writeArticle(int memberId, String title, String body) {
+	public int writeArticle(int memberId, String title, String body) {
 		articleRepository.writeArticle(memberId, title, body);
-		int id = articleRepository.getLastInsertId();
-
-		return ResultData.from("S-1", Util.f("%d번 게시물이 생성되었습니다.", id), "id", id);
+		return articleRepository.getLastInsertId();
 	}
 
 	public Article getForPrintArticle(int id) {
