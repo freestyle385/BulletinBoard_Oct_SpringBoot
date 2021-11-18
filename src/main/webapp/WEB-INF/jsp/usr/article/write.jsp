@@ -14,15 +14,21 @@
         </colgroup>
         <tbody>
           <tr>
+            <th>작성자</th>
+            <td>
+              <div>${rq.loginedMember.nickname}</div>
+            </td>
+          </tr>
+          <tr>
             <th>제목</th>
             <td>
-              <input name="title" class="w-full" type="text" />
+              <input name="title" class="w-full" type="text" placeholder="제목"/>
             </td>
           </tr>
           <tr>
             <th>내용</th>
             <td>
-              <textarea name="body" class="w-full" rows="20" autocomplete="off" /></textarea>
+              <textarea name="body" class="w-full" rows="20" autocomplete="off" placeholder="내용"/></textarea>
             </td>
           </tr>
         </tbody>
