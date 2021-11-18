@@ -33,10 +33,12 @@ public class MyWebConfig implements WebMvcConfigurer {
 		// 추가할 것은 뒤에 .붙인 후 쭉 이어서 적어나갈 수 있음.
 
 		InterceptorRegistration needLoginIr = registry.addInterceptor(needLoginInterceptor);
-		needLoginIr.addPathPatterns("/usr/article/write").addPathPatterns("/usr/article/modify")
-				.addPathPatterns("/usr/article/doModify").addPathPatterns("/usr/article/doDelete").addPathPatterns("/usr/member/doLogout");
+		needLoginIr.addPathPatterns("/usr/article/write").addPathPatterns("/usr/article/doWrite").addPathPatterns("/usr/article/modify")
+				.addPathPatterns("/usr/article/doModify").addPathPatterns("/usr/article/doDelete")
+				.addPathPatterns("/usr/member/doLogout");
 
 		InterceptorRegistration needLogoutIr = registry.addInterceptor(needLogoutInterceptor);
-		needLogoutIr.addPathPatterns("/usr/member/showLogin").addPathPatterns("/usr/member/login");
+		needLogoutIr.addPathPatterns("/usr/member/login").addPathPatterns("/usr/member/join")
+				.addPathPatterns("/usr/member/doLogin").addPathPatterns("/usr/member/doJoin");
 	}
 }

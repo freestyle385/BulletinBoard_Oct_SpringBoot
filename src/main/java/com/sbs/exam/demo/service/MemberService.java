@@ -15,26 +15,13 @@ public class MemberService {
 	@Autowired
 	private MemberRepository memberRepository;
 
-	public ResultData<Integer> join(String loginId, String loginPw, String name, String nickname, String cellPhoneNo,
+	public Member joinMember(String loginId, String loginPw, String name, String nickname, String cellPhoneNo,
 			String email) {
-		// 아이디 중복 체크
-		Member oldmember = getMemberByLoginId(loginId);
-
-		if (oldmember != null) {
-			return ResultData.from("F-7", Util.f("(%s)(은)는 이미 존재하는 아이디입니다.", loginId));
-		}
-
-		// 이름, 이메일 중복 체크
-		oldmember = getMemberByNameAndEmail(name, email);
-
-		if (oldmember != null) {
-			return ResultData.from("F-8", Util.f("(%s), (%s)(은)는 이미 가입된 회원의 이름과 이메일입니다.", name, email));
-		}
 
 		memberRepository.join(loginId, loginPw, name, nickname, cellPhoneNo, email);
 		int id = memberRepository.getLastInsertId();
 
-		return ResultData.from("S-1", "회원가입이 완료되었습니다.", "id", id);
+		return getMemberById(id);
 	}
 
 	private Member getMemberByNameAndEmail(String name, String email) {
@@ -57,6 +44,26 @@ public class MemberService {
 		}
 		
 		return isLogined;
+	}
+
+	public boolean isLoginIdAlreadyExists(String loginId) {
+		boolean isAlreadyExists = false;
+		Member oldmember = getMemberByLoginId(loginId);
+		
+		if (oldmember != null) {
+			isAlreadyExists = true;
+		}
+		return isAlreadyExists;
+	}
+
+	public boolean isNameAndEmailAlreadyExists(String name, String email) {
+		boolean isNameAndEmailAlreadyExists = false;
+		Member oldmember = getMemberByNameAndEmail(name, email);
+		
+		if (oldmember != null) {
+			isNameAndEmailAlreadyExists = true;
+		}
+		return isNameAndEmailAlreadyExists;
 	}
 
 }

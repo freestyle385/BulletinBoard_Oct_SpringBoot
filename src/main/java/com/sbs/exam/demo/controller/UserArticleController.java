@@ -22,7 +22,7 @@ public class UserArticleController {
 
 	// 액션 메소드 시작
 	@RequestMapping("/usr/article/write")
-	public String write() {
+	public String showWrite() {
 
 		return "usr/article/write";
 	}
@@ -42,7 +42,7 @@ public class UserArticleController {
 
 		int articleId = articleService.writeArticle((int) rq.getLoginedMemberId(), title, body);
 
-		return Util.jsReplace(Util.f("%d번 글이 생성되었습니다.", articleId), "list");
+		return Util.jsReplace(Util.f("%d번 글이 생성되었습니다.", articleId), Util.f("/usr/article/detail?id=%d", articleId));
 	}
 
 	@RequestMapping("/usr/article/list")
@@ -83,7 +83,7 @@ public class UserArticleController {
 	}
 
 	@RequestMapping("/usr/article/modify")
-	public String modify(Model model, HttpServletRequest req, int id, String title, String body) {
+	public String showModify(Model model, HttpServletRequest req, int id, String title, String body) {
 
 		Rq rq = (Rq) req.getAttribute("rq");
 

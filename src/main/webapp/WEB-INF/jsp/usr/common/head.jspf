@@ -42,6 +42,13 @@
         </li>
         <c:if test="${!rq.isLogined() }">
           <li>
+          <a class="h-full flex items-center px-3 hover:underline" href="/usr/member/join">
+            <span>회원가입</span>
+          </a>
+        </li>
+        </c:if>
+        <c:if test="${!rq.isLogined() }">
+          <li>
           <a class="h-full flex items-center px-3 hover:underline" href="/usr/member/login">
             <span>로그인</span>
           </a>
