@@ -53,10 +53,10 @@ public class UserMemberController {
 			return Util.jsHistoryBack(Util.f("(%s)(은)는 이미 존재하는 아이디입니다.", loginId));
 		}
 
-		// 이름, 이메일 중복 체크
-		if (memberService.isNameAndEmailAlreadyExists(name, email)) {
-			return Util.jsHistoryBack(Util.f("(%s), (%s)(은)는 이미 가입된 회원의 이름과 이메일입니다.", name, email));
-		}
+//		// 이름, 이메일 중복 체크
+//		if (memberService.isNameAndEmailAlreadyExists(name, email)) {
+//			return Util.jsHistoryBack(Util.f("(%s), (%s)(은)는 이미 가입된 회원의 이름과 이메일입니다.", name, email));
+//		}
 
 		Member foundMember = memberService.joinMember(loginId, loginPw, name, nickname, cellPhoneNo, email);
 

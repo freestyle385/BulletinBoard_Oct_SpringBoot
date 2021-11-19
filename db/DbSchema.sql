@@ -31,6 +31,7 @@ updateDate = NOW(),
 title = '제목3',
 `body` = '내용3';
 
+
 # 멤버 테이블 생성
 CREATE TABLE `member`(
     id INT(100) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -82,15 +83,65 @@ email = '123@gmail.com';
 # 게시물 테이블에 회원 정보 추가
 ALTER TABLE article ADD COLUMN memberId INT(10) UNSIGNED NOT NULL AFTER updateDate;
 
+# 게시물 테스트 데이터 추가
+INSERT INTO article
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 1,
+title = '제목4',
+`body` = '내용4';
+
+INSERT INTO article
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 1,
+title = '제목5',
+`body` = '내용5';
+
 # 기존 게시물의 작성자를 2번으로 수정
-UPDATE article SET memberId = 2 WHERE memberId = 0; 
+UPDATE article SET memberId = 2 WHERE memberId = 0;
+
+# 게시판 테이블 생성
+CREATE TABLE board(
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,
+    boardCode CHAR(20) NOT NULL UNIQUE COMMENT 'notice(공지사항), free1(자유게시판1), free2(자유게시판2), ...',
+    `name` CHAR(20) NOT NULL UNIQUE COMMENT '게시판 이름',
+    delStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '비활성 여부(0=활성,1=비활성)',
+    delDate DATETIME COMMENT '비활성날짜'
+); 
+
+# 기본 게시판 생성
+INSERT INTO board 
+SET regDate = NOW(), 
+updateDate = NOW(), 
+boardCode = 'notice',
+`name` = '공지사항'
+
+INSERT INTO board 
+SET regDate = NOW(), 
+updateDate = NOW(), 
+boardCode = 'free1',
+`name` = '자유게시판1'
+
+# 게시판 테이블에 boardId 컬럼 추가
+ALTER TABLE article ADD COLUMN boardId INT(10) UNSIGNED NOT NULL AFTER memberId;
+
+# 1~5번 게시물에 게시판 정보 추가
+UPDATE article SET boardId=1 WHERE id < 6;
+
+# 6~10번 게시물에 게시판 정보 추가
+UPDATE article SET boardId=2 WHERE id > 5;
+
+SHOW TABLES;
+DESC article;
 
 SELECT * 
-FROM article; 
+FROM article;
 
 SELECT * 
 FROM `member`;
 
-SELECT COUNT(*) > 0
-FROM `member`
-WHERE loginId = 'user1' AND email = abc@gmail.com;
+SELECT * 
+FROM board;
