@@ -27,8 +27,8 @@ public class ArticleService {
 		return articleRepository.getForPrintArticle(id);
 	}
 
-	public List<Article> getForPrintArticles() {
-		return articleRepository.getForPrintArticles();
+	public List<Article> getForPrintArticles(int id) {
+		return articleRepository.getForPrintArticles(id);
 	}
 
 	public void deleteArticle(int id) {

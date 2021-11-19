@@ -11,14 +11,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sbs.exam.demo.service.ArticleService;
+import com.sbs.exam.demo.service.BoardService;
 import com.sbs.exam.demo.util.Util;
 import com.sbs.exam.demo.vo.Article;
+import com.sbs.exam.demo.vo.Board;
 import com.sbs.exam.demo.vo.Rq;
 
 @Controller
 public class UserArticleController {
 	@Autowired // 등록된 컴포넌트를 자동으로 연결 해줌
 	private ArticleService articleService;
+	@Autowired
+	private BoardService boardService;
 
 	// 액션 메소드 시작
 	@RequestMapping("/usr/article/write")
@@ -46,11 +50,14 @@ public class UserArticleController {
 	}
 
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model) {
-		List<Article> articles = articleService.getForPrintArticles();
-
+	public String showList(Model model, int id) {
+		List<Article> articles = articleService.getForPrintArticles(id);
+		
+		Board board = boardService.getBoardNameById(id);
+		
 		model.addAttribute("articles", articles);
-
+		model.addAttribute("board", board);
+		
 		return "/usr/article/list";
 	}
 
