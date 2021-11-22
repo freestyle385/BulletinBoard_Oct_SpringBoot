@@ -6,7 +6,7 @@
 	<select id="getBoardNameById" resultType="Board">
 		SELECT *
 		FROM board AS B
-		WHERE B.id = #{id}
-		AND B.delStatus = 0
+		WHERE B.delStatus = 0
+		AND B.id = #{id}
 	</select>
 </mapper> 

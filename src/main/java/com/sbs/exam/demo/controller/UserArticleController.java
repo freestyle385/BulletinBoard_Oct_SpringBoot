@@ -50,14 +50,19 @@ public class UserArticleController {
 	}
 
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model, int id) {
-		List<Article> articles = articleService.getForPrintArticles(id);
+	public String showList(HttpServletRequest req, Model model, int id) {
+		Rq rq = (Rq) req.getAttribute("rq");
 		
+		List<Article> articles = articleService.getForPrintArticles(id);
 		Board board = boardService.getBoardNameById(id);
+		
+		if (board == null) {
+			return rq.historyBackOnView("해당 게시판은 존재하지 않습니다.");
+		}
 		
 		model.addAttribute("articles", articles);
 		model.addAttribute("board", board);
-		
+
 		return "/usr/article/list";
 	}
 
