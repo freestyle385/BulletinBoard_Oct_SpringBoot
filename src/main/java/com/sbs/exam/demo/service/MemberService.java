@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.sbs.exam.demo.repository.MemberRepository;
-import com.sbs.exam.demo.util.Util;
 import com.sbs.exam.demo.vo.Member;
-import com.sbs.exam.demo.vo.ResultData;
 
 @Service
 public class MemberService {

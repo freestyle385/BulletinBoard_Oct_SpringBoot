@@ -50,16 +50,22 @@ public class UserArticleController {
 	}
 
 	@RequestMapping("/usr/article/list")
-	public String showList(HttpServletRequest req, Model model, int id) {
+	public String showList(HttpServletRequest req, Model model, Integer id) {
 		Rq rq = (Rq) req.getAttribute("rq");
 
-		List<Article> articles = articleService.getForPrintArticles(id);
+		if (id == null) {
+			id = 1;
+			// 게시판 id 파라미터가 null일 경우 공지사항(id=1)로 이동하게끔 처리
+		}
+
 		Board board = boardService.getBoardNameById(id);
-		int articlesCount = articleService.getArticlesCount(id);
 
 		if (board == null) {
 			return rq.historyBackOnView("해당 게시판은 존재하지 않습니다.");
 		}
+
+		List<Article> articles = articleService.getForPrintArticles(id);
+		int articlesCount = articleService.getArticlesCount(id);
 
 		model.addAttribute("articles", articles);
 		model.addAttribute("articlesCount", articlesCount);
