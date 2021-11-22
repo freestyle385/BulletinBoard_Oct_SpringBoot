@@ -57,4 +57,8 @@ public class ArticleService {
 		return true;
 	}
 
+	public int getArticlesCount(int id) {
+		return articleRepository.getArticlesCount(id);
+	}
+
 }
