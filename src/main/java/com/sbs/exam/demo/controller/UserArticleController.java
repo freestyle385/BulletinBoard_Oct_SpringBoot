@@ -2,8 +2,6 @@ package com.sbs.exam.demo.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +21,8 @@ public class UserArticleController {
 	private ArticleService articleService;
 	@Autowired
 	private BoardService boardService;
+	@Autowired
+	private Rq rq;
 
 	// 액션 메소드 시작
 	@RequestMapping("/usr/article/write")
@@ -33,9 +33,7 @@ public class UserArticleController {
 
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public String doWrite(HttpServletRequest req, String title, String body) {
-
-		Rq rq = (Rq) req.getAttribute("rq");
+	public String doWrite(String title, String body) {
 
 		if (Util.isParamEmpty(title)) {
 			return Util.jsHistoryBack("제목을 입력해주세요.");
@@ -50,8 +48,7 @@ public class UserArticleController {
 	}
 
 	@RequestMapping("/usr/article/list")
-	public String showList(HttpServletRequest req, Model model, Integer id) {
-		Rq rq = (Rq) req.getAttribute("rq");
+	public String showList(Model model, Integer id) {
 
 		if (id == null) {
 			id = 1;
@@ -85,9 +82,7 @@ public class UserArticleController {
 
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
-	public String doDelete(HttpServletRequest req, int id) {
-
-		Rq rq = (Rq) req.getAttribute("rq");
+	public String doDelete(int id) {
 
 		if (articleService.isArticleExists(id) == false) {
 			return Util.jsHistoryBack(Util.f("%d번 게시물은 존재하지 않습니다.", id));
@@ -103,9 +98,7 @@ public class UserArticleController {
 	}
 
 	@RequestMapping("/usr/article/modify")
-	public String showModify(Model model, HttpServletRequest req, int id, String title, String body) {
-
-		Rq rq = (Rq) req.getAttribute("rq");
+	public String showModify(Model model, int id, String title, String body) {
 
 		if (articleService.isArticleExists(id) == false) {
 			return rq.historyBackOnView(Util.f("%d번 게시물은 존재하지 않습니다.", id));

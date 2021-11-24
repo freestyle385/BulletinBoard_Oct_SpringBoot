@@ -7,20 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import com.sbs.exam.demo.service.MemberService;
 import com.sbs.exam.demo.vo.Rq;
 
 @Component
-public class BeforeActionInterceptor implements HandlerInterceptor{
+public class BeforeActionInterceptor implements HandlerInterceptor {
 	@Autowired
-	private MemberService memberService;
-	
+	private Rq rq;
+
 	@Override
-	public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler)
-			throws Exception {
+	public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler) throws Exception {
+		// Rq 객체는 Rq 클래스에서 자동으로 만들어지기 때문에 별도 생성 필요 없음.
+		// 싱글톤 적용
 		
-		Rq rq = new Rq(req, resp, memberService);
-		req.setAttribute("rq", rq);
+		rq.initOnBeforeActionInterceptor();
+		// BeforeAction 인터셉터 실행 시 해당 메소드를 통해 Rq 호출
 		
 		return HandlerInterceptor.super.preHandle(req, resp, handler);
 	}

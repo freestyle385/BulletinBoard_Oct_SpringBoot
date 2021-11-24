@@ -16,7 +16,9 @@ import com.sbs.exam.demo.vo.Rq;
 public class UserMemberController {
 	@Autowired // 등록된 컴포넌트를 자동으로 연결 해줌
 	private MemberService memberService;
-
+	@Autowired
+	private Rq rq;
+	
 	// 액션 메소드 시작
 	@RequestMapping("/usr/member/join")
 	public String showJoin() {
@@ -83,8 +85,7 @@ public class UserMemberController {
 
 	@RequestMapping("/usr/member/doLogin")
 	@ResponseBody
-	public String doLogin(HttpServletRequest req, String loginId, String loginPw) {
-		Rq rq = (Rq) req.getAttribute("rq");
+	public String doLogin(String loginId, String loginPw) {
 
 		if (Util.isParamEmpty(loginId)) {
 			return Util.jsHistoryBack("loginId을(를) 입력해주세요.");
@@ -110,8 +111,7 @@ public class UserMemberController {
 
 	@RequestMapping("/usr/member/doLogout")
 	@ResponseBody
-	public String doLogout(HttpServletRequest req) {
-		Rq rq = (Rq) req.getAttribute("rq");
+	public String doLogout() {
 
 		rq.logout();
 
