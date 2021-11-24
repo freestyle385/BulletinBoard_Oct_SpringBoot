@@ -134,6 +134,16 @@ UPDATE article SET boardId=1 WHERE id < 6;
 # 6~10번 게시물에 게시판 정보 추가
 UPDATE article SET boardId=2 WHERE id > 5;
 
+# 게시물 갯수 늘리기
+INSERT INTO article
+(
+    regDate, updateDate, memberId, boardId, title, `body`
+)
+SELECT NOW(), NOW(), FLOOR(RAND() * 3 + 1), FLOOR(RAND() * 2 + 1), CONCAT('제목_',RAND()), CONCAT('내용_',RAND())
+FROM article;
+
+SELECT FLOOR(RAND() * 2 + 1);
+
 SHOW TABLES;
 DESC article;
 

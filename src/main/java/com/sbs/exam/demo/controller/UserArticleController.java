@@ -26,10 +26,7 @@ public class UserArticleController {
 
 	// 액션 메소드 시작
 	@RequestMapping("/usr/article/write")
-	public String showWrite(Model model) {
-		
-		Board board = (Board) model.getAttribute("board");
-		model.addAttribute("board", board);
+	public String showWrite() {
 		
 		return "usr/article/write";
 	}
