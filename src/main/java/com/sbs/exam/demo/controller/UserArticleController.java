@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sbs.exam.demo.service.ArticleService;
@@ -51,12 +52,7 @@ public class UserArticleController {
 	}
 
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model, Integer boardId) {
-
-		if (boardId == null) {
-			boardId = 1;
-			// 게시판 id 파라미터가 null일 경우 공지사항(id=1)로 이동하게끔 처리
-		}
+	public String showList(Model model, @RequestParam(defaultValue = "1") int boardId) {
 
 		Board board = boardService.getBoardNameById(boardId);
 
