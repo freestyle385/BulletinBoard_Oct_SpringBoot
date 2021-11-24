@@ -11,7 +11,7 @@ public class BoardService {
 	@Autowired
 	private BoardRepository boardRepository;
 	
-	public Board getBoardNameById(int id) {
-		return boardRepository.getBoardNameById(id);
+	public Board getBoardNameById(int boardId) {
+		return boardRepository.getBoardNameById(boardId);
 	}
 }

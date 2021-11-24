@@ -9,9 +9,9 @@
 		updateDate =
 		NOW(),
 		memberId = #{memberId},
+		boardId = #{boardId},
 		title = #{title},
 		`body` = #{body}
-
 	</insert>
 
 	<select id="getForPrintArticle" resultType="Article">
@@ -52,7 +52,7 @@
 		`member` AS M
 		ON A.memberId = M.id
 		WHERE 1
-		AND A.boardId = #{id}
+		AND A.boardId = #{boardId}
 		ORDER BY A.id DESC
 	</select>
 	
@@ -60,8 +60,8 @@
 		SELECT COUNT(*) AS cnt
 		FROM article AS A
 		WHERE 1
-		<if test="id != 0">
-			AND A.boardId = #{id}
+		<if test="boardId != 0">
+			AND A.boardId = #{boardId}
 		</if>
 	</select>
 	

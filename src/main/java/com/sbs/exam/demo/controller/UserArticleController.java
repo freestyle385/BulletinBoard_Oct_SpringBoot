@@ -26,43 +26,49 @@ public class UserArticleController {
 
 	// 액션 메소드 시작
 	@RequestMapping("/usr/article/write")
-	public String showWrite() {
-
+	public String showWrite(Model model) {
+		
+		Board board = (Board) model.getAttribute("board");
+		model.addAttribute("board", board);
+		
 		return "usr/article/write";
 	}
 
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public String doWrite(String title, String body) {
-
+	public String doWrite(Integer boardId, String title, String body) {
+		
+		if (boardId == null) {
+			return Util.jsHistoryBack("게시판을 선택해주세요.");
+		}
 		if (Util.isParamEmpty(title)) {
 			return Util.jsHistoryBack("제목을 입력해주세요.");
 		}
 		if (Util.isParamEmpty(body)) {
 			return Util.jsHistoryBack("내용을 입력해주세요.");
 		}
-
-		int articleId = articleService.writeArticle((int) rq.getLoginedMemberId(), title, body);
+		
+		int articleId = articleService.writeArticle((int) rq.getLoginedMemberId(), boardId, title, body);
 
 		return Util.jsReplace(Util.f("%d번 글이 생성되었습니다.", articleId), Util.f("/usr/article/detail?id=%d", articleId));
 	}
 
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model, Integer id) {
+	public String showList(Model model, Integer boardId) {
 
-		if (id == null) {
-			id = 1;
+		if (boardId == null) {
+			boardId = 1;
 			// 게시판 id 파라미터가 null일 경우 공지사항(id=1)로 이동하게끔 처리
 		}
 
-		Board board = boardService.getBoardNameById(id);
+		Board board = boardService.getBoardNameById(boardId);
 
 		if (board == null) {
 			return rq.historyBackOnView("해당 게시판은 존재하지 않습니다.");
 		}
 
-		List<Article> articles = articleService.getForPrintArticles(id);
-		int articlesCount = articleService.getArticlesCount(id);
+		List<Article> articles = articleService.getForPrintArticles(boardId);
+		int articlesCount = articleService.getArticlesCount(boardId);
 
 		model.addAttribute("articles", articles);
 		model.addAttribute("articlesCount", articlesCount);

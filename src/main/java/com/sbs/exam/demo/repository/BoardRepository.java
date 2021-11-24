@@ -8,5 +8,5 @@ import com.sbs.exam.demo.vo.Board;
 @Mapper
 public interface BoardRepository {
 	
-	public Board getBoardNameById(@Param("id") int id);
+	public Board getBoardNameById(@Param("boardId") int boardId);
 }

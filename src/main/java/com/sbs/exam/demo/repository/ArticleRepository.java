@@ -10,11 +10,11 @@ import com.sbs.exam.demo.vo.Article;
 @Mapper
 public interface ArticleRepository {
 
-	public void writeArticle(@Param("memberId") int memberId, @Param("title") String title, @Param("body") String body);
+	public void writeArticle(@Param("memberId") int memberId, @Param("boardId") int boardId, @Param("title") String title, @Param("body") String body);
 
 	public Article getForPrintArticle(@Param("id") int id);
 
-	public List<Article> getForPrintArticles(@Param("id") int id);
+	public List<Article> getForPrintArticles(@Param("boardId") int boardId);
 
 	public void deleteArticle(@Param("id") int id);
 
@@ -22,6 +22,6 @@ public interface ArticleRepository {
 
 	public int getLastInsertId();
 
-	public int getArticlesCount(@Param("id") int id);
+	public int getArticlesCount(@Param("boardId") int boardId);
 
 }

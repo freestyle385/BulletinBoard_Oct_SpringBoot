@@ -18,8 +18,8 @@ public class ArticleService {
 		this.articleRepository = articleRepository;
 	}
 
-	public int writeArticle(int memberId, String title, String body) {
-		articleRepository.writeArticle(memberId, title, body);
+	public int writeArticle(int memberId, int boardId, String title, String body) {
+		articleRepository.writeArticle(memberId, boardId, title, body);
 		return articleRepository.getLastInsertId();
 	}
 
@@ -27,8 +27,8 @@ public class ArticleService {
 		return articleRepository.getForPrintArticle(id);
 	}
 
-	public List<Article> getForPrintArticles(int id) {
-		return articleRepository.getForPrintArticles(id);
+	public List<Article> getForPrintArticles(int boardId) {
+		return articleRepository.getForPrintArticles(boardId);
 	}
 
 	public void deleteArticle(int id) {
@@ -57,8 +57,8 @@ public class ArticleService {
 		return true;
 	}
 
-	public int getArticlesCount(int id) {
-		return articleRepository.getArticlesCount(id);
+	public int getArticlesCount(int boardId) {
+		return articleRepository.getArticlesCount(boardId);
 	}
 
 }

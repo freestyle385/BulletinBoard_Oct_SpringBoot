@@ -7,6 +7,6 @@
 		SELECT *
 		FROM board AS B
 		WHERE B.delStatus = 0
-		AND B.id = #{id}
+		AND B.id = #{boardId}
 	</select>
 </mapper> 
