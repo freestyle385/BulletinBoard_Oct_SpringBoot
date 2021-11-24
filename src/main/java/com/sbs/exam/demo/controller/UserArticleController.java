@@ -28,14 +28,14 @@ public class UserArticleController {
 	// 액션 메소드 시작
 	@RequestMapping("/usr/article/write")
 	public String showWrite() {
-		
+
 		return "usr/article/write";
 	}
 
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
 	public String doWrite(Integer boardId, String title, String body) {
-		
+
 		if (boardId == null) {
 			return Util.jsHistoryBack("게시판을 선택해주세요.");
 		}
@@ -45,14 +45,15 @@ public class UserArticleController {
 		if (Util.isParamEmpty(body)) {
 			return Util.jsHistoryBack("내용을 입력해주세요.");
 		}
-		
+
 		int articleId = articleService.writeArticle((int) rq.getLoginedMemberId(), boardId, title, body);
 
 		return Util.jsReplace(Util.f("%d번 글이 생성되었습니다.", articleId), Util.f("/usr/article/detail?id=%d", articleId));
 	}
 
 	@RequestMapping("/usr/article/list")
-	public String showList(Model model, @RequestParam(defaultValue = "1") int boardId) {
+	public String showList(Model model, @RequestParam(defaultValue = "1") int boardId,
+			@RequestParam(defaultValue = "1") int page) {
 
 		Board board = boardService.getBoardNameById(boardId);
 
@@ -60,7 +61,8 @@ public class UserArticleController {
 			return rq.historyBackOnView("해당 게시판은 존재하지 않습니다.");
 		}
 
-		List<Article> articles = articleService.getForPrintArticles(boardId);
+		int itemsCountInApage = 20; // 페이지별 게시물 개수
+		List<Article> articles = articleService.getForPrintArticles(boardId, itemsCountInApage, page);
 		int articlesCount = articleService.getArticlesCount(boardId);
 
 		model.addAttribute("articles", articles);

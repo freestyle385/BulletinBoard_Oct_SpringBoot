@@ -27,8 +27,12 @@ public class ArticleService {
 		return articleRepository.getForPrintArticle(id);
 	}
 
-	public List<Article> getForPrintArticles(int boardId) {
-		return articleRepository.getForPrintArticles(boardId);
+	public List<Article> getForPrintArticles(int boardId, int itemsCountInApage, int page) {
+
+		int limitStart = (page - 1) * itemsCountInApage; // 페이징 범위 시작지점
+		int limitTake = itemsCountInApage;
+
+		return articleRepository.getForPrintArticles(boardId, limitStart, limitTake);
 	}
 
 	public void deleteArticle(int id) {
@@ -41,7 +45,7 @@ public class ArticleService {
 
 	public boolean isUsrAuthorized(Rq rq, int id) {
 		Article foundArticle = getForPrintArticle(id);
-		
+
 		if (rq.getLoginedMemberId() != foundArticle.getMemberId()) {
 			return false;
 		}
@@ -50,7 +54,7 @@ public class ArticleService {
 
 	public boolean isArticleExists(int id) {
 		Article foundArticle = getForPrintArticle(id);
-		
+
 		if (foundArticle == null) {
 			return false;
 		}
