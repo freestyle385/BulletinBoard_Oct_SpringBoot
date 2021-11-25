@@ -44,7 +44,21 @@
     <div class="btns mt-2">
       <a class="btn-text-link" href="../article/write">글쓰기</a>
     </div>
+    <div class="page-menu mt-3">
+      <div class="btn-group justify-center">
+        <c:forEach begin="1" end="${pagesCount }" var="i">
+          <a class="btn btn-sm ${param.page == i ? 'btn-active' : ''}" href="?boardId=${board.id}&page=${i}">${i}</a>
+        </c:forEach>
+      </div>
+    </div>
   </div>
 </section>
+
+
 <%@ include file="../common/foot.jspf"%>
 
+<style type="text/css">
+.page>a.red {
+	color: red;
+}
+</style>

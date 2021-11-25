@@ -65,4 +65,10 @@ public class ArticleService {
 		return articleRepository.getArticlesCount(boardId);
 	}
 
+	public int getPagesCount(int itemsCountInApage, int articlesCount) {
+		int pagesCount = (int) Math.ceil((double) articlesCount / itemsCountInApage);
+		
+		return pagesCount;
+	}
+
 }

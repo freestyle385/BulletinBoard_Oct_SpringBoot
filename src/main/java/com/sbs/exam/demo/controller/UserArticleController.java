@@ -60,13 +60,19 @@ public class UserArticleController {
 		if (board == null) {
 			return rq.historyBackOnView("해당 게시판은 존재하지 않습니다.");
 		}
-
-		int itemsCountInApage = 20; // 페이지별 게시물 개수
-		List<Article> articles = articleService.getForPrintArticles(boardId, itemsCountInApage, page);
+		
 		int articlesCount = articleService.getArticlesCount(boardId);
+		
+		int itemsCountInApage = 10; // 페이지별 게시물 개수
+		int pagesCount = articleService.getPagesCount(itemsCountInApage, articlesCount);
+		// 총 페이지 개수
 
+		List<Article> articles = articleService.getForPrintArticles(boardId, itemsCountInApage, page);
+		
 		model.addAttribute("articles", articles);
 		model.addAttribute("articlesCount", articlesCount);
+		model.addAttribute("page", page);
+		model.addAttribute("pagesCount", pagesCount);
 		model.addAttribute("board", board);
 
 		return "/usr/article/list";
