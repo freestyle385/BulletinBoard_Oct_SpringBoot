@@ -53,22 +53,23 @@ public class UserArticleController {
 
 	@RequestMapping("/usr/article/list")
 	public String showList(Model model, @RequestParam(defaultValue = "1") int boardId,
-			@RequestParam(defaultValue = "1") int page) {
+			@RequestParam(defaultValue = "title, body") String searchKeywordTypeCode,
+			@RequestParam(defaultValue = "") String searchKeyword, @RequestParam(defaultValue = "1") int page) {
 
 		Board board = boardService.getBoardNameById(boardId);
 
 		if (board == null) {
 			return rq.historyBackOnView("해당 게시판은 존재하지 않습니다.");
 		}
-		
-		int articlesCount = articleService.getArticlesCount(boardId);
-		
+
+		int articlesCount = articleService.getArticlesCount(boardId, searchKeywordTypeCode, searchKeyword);
+
 		int itemsCountInApage = 10; // 페이지별 게시물 개수
 		int pagesCount = articleService.getPagesCount(itemsCountInApage, articlesCount);
 		// 총 페이지 개수
 
 		List<Article> articles = articleService.getForPrintArticles(boardId, itemsCountInApage, page);
-		
+
 		model.addAttribute("articles", articles);
 		model.addAttribute("articlesCount", articlesCount);
 		model.addAttribute("page", page);

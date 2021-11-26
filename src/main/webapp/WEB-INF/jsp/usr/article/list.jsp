@@ -44,7 +44,7 @@
     <div class="btns mt-2">
       <a class="btn-text-link" href="../article/write">글쓰기</a>
     </div>
-    <div class="page-menu mt-3">
+    <div class="page-menu my-3">
       <div class="btn-group justify-center">
         <c:set var="pageMenuArmLen" value="4" />
         <c:set var="startPage" value="${page - pageMenuArmLen >= 1 ? page - pageMenuArmLen : 1}" />
