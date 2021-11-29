@@ -27,12 +27,12 @@ public class ArticleService {
 		return articleRepository.getForPrintArticle(id);
 	}
 
-	public List<Article> getForPrintArticles(int boardId, int itemsCountInApage, int page) {
+	public List<Article> getForPrintArticles(int boardId, int itemsCountInApage, int page, String searchKeywordTypeCode, String searchKeyword) {
 
 		int limitStart = (page - 1) * itemsCountInApage; // 페이징 범위 시작지점
 		int limitTake = itemsCountInApage;
 
-		return articleRepository.getForPrintArticles(boardId, limitStart, limitTake);
+		return articleRepository.getForPrintArticles(boardId, searchKeywordTypeCode, searchKeyword, limitStart, limitTake);
 	}
 
 	public void deleteArticle(int id) {

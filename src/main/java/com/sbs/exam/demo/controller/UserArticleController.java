@@ -68,7 +68,7 @@ public class UserArticleController {
 		int pagesCount = articleService.getPagesCount(itemsCountInApage, articlesCount);
 		// 총 페이지 개수
 
-		List<Article> articles = articleService.getForPrintArticles(boardId, itemsCountInApage, page);
+		List<Article> articles = articleService.getForPrintArticles(boardId, itemsCountInApage, page, searchKeywordTypeCode, searchKeyword);
 
 		model.addAttribute("articles", articles);
 		model.addAttribute("articlesCount", articlesCount);
