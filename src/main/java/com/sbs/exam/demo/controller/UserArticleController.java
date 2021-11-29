@@ -81,8 +81,15 @@ public class UserArticleController {
 
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(Model model, int id) {
+		
+		if (articleService.isArticleExists(id) == false) {
+			return Util.jsHistoryBack(Util.f("%d번 게시물은 존재하지 않습니다.", id));
+		}
+		
+		articleService.increaseHitCount(id);
+		
 		Article foundArticle = articleService.getForPrintArticle(id);
-
+		
 		model.addAttribute("foundArticle", foundArticle);
 
 		return "/usr/article/detail";

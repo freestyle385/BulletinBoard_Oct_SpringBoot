@@ -30,6 +30,10 @@
             <td>${foundArticle.extra__writerName}</td>
           </tr>
           <tr>
+            <th>조회수</th>
+            <td>${foundArticle.hitCount}</td>
+          </tr>
+          <tr>
             <th>제목</th>
             <td>${foundArticle.title}</td>
           </tr>

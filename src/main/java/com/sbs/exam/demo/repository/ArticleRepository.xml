@@ -107,4 +107,10 @@
 		SELECT LAST_INSERT_ID()
 	</select>
 
+	<update id="increaseHitCount">
+		UPDATE article
+		SET hitCount = hitCount + 1
+		WHERE id = #{id}
+	</update>
+
 </mapper> 

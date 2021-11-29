@@ -24,4 +24,6 @@ public interface ArticleRepository {
 
 	public int getArticlesCount(@Param("boardId") int boardId, @Param("searchKeywordTypeCode") String searchKeywordTypeCode, @Param("searchKeyword") String searchKeyword);
 
+	public void increaseHitCount(@Param("id") int id);
+
 }

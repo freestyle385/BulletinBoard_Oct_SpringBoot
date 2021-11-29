@@ -71,4 +71,8 @@ public class ArticleService {
 		return pagesCount;
 	}
 
+	public void increaseHitCount(int id) {
+		articleRepository.increaseHitCount(id);
+	}
+
 }
