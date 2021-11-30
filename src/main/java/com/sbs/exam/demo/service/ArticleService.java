@@ -75,4 +75,8 @@ public class ArticleService {
 		articleRepository.increaseHitCount(id);
 	}
 
+	public int getHitCount(int id) {
+		return articleRepository.getHitCount(id);
+	}
+
 }

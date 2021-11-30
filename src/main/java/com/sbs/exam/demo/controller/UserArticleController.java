@@ -86,13 +86,22 @@ public class UserArticleController {
 			return Util.jsHistoryBack(Util.f("%d번 게시물은 존재하지 않습니다.", id));
 		}
 		
-		articleService.increaseHitCount(id);
+//		articleService.increaseHitCount(id);
 		
 		Article foundArticle = articleService.getForPrintArticle(id);
 		
 		model.addAttribute("foundArticle", foundArticle);
 
 		return "/usr/article/detail";
+	}
+	
+	@RequestMapping("/usr/article/doIncreaseHitCount")
+	@ResponseBody
+	public int doIncreaseHitCount(int id) {
+		articleService.increaseHitCount(id);
+		int hitCount = articleService.getHitCount(id);
+		
+		return hitCount;
 	}
 
 	@RequestMapping("/usr/article/doDelete")

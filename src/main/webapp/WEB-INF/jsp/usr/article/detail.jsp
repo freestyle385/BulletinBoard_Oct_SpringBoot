@@ -5,6 +5,25 @@
 
 <%@ include file="../common/head.jspf"%>
 
+<script>
+	const params = {};
+	params.id = parseInt('${param.id}');
+</script>
+
+<script>
+	function ArticleDetail__increaseHitCount() {
+		$.get('../article/doIncreaseHitCount', {
+			id : params.id,
+			ajaxMode : 'Y'
+		}, function(hitCount) {
+			$('.article-detail__hit-count').empty().html(hitCount);
+		}, 'json');
+	}
+	$(function() {
+		ArticleDetail__increaseHitCount();
+	})
+</script>
+
 <section class="mt-5">
   <div class="container mx-auto px-3">
     <div class="table-box-type-1">
@@ -31,7 +50,9 @@
           </tr>
           <tr>
             <th>조회수</th>
-            <td>${foundArticle.hitCount}</td>
+            <td>
+              <span class="article-detail__hit-count">${foundArticle.hitCount}</span>
+            </td>
           </tr>
           <tr>
             <th>제목</th>

@@ -26,4 +26,6 @@ public interface ArticleRepository {
 
 	public void increaseHitCount(@Param("id") int id);
 
+	public int getHitCount(@Param("id") int id);
+
 }
