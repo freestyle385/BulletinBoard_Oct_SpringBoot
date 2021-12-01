@@ -20,4 +20,20 @@ class Article {
 	
 	private String extra__writerName;
 	private boolean isUsrAuthorized;
+	
+	public String getForPrintType1RegDate() {
+		return regDate.substring(2, 16).replace(" ", "<br>");
+	}
+	
+	public String getForPrintType1UpdateDate() {
+		return updateDate.substring(2, 16).replace(" ", "<br>");
+	}
+
+	public String getForPrintType2RegDate() {
+		return regDate.substring(2, 16);
+	}
+
+	public String getForPrintType2UpdateDate() {
+		return updateDate.substring(2, 16);
+	}
 }

@@ -45,11 +45,11 @@
           </tr>
           <tr>
             <th>작성날짜</th>
-            <td>${foundArticle.regDate.substring(2, 16)}</td>
+            <td>${foundArticle.forPrintType2RegDate}</td>
           </tr>
           <tr>
             <th>수정날짜</th>
-            <td>${foundArticle.updateDate.substring(2, 16)}</td>
+            <td>${foundArticle.forPrintType2UpdateDate}</td>
           </tr>
           <tr>
             <th>작성자</th>
