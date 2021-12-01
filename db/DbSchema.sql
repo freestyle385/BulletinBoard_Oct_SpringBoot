@@ -117,22 +117,22 @@ INSERT INTO board
 SET regDate = NOW(), 
 updateDate = NOW(), 
 boardCode = 'notice',
-`name` = '공지사항'
+`name` = '공지사항';
 
 INSERT INTO board 
 SET regDate = NOW(), 
 updateDate = NOW(), 
 boardCode = 'free1',
-`name` = '자유게시판1'
+`name` = '자유게시판1';
 
 # 게시판 테이블에 boardId 컬럼 추가
 ALTER TABLE article ADD COLUMN boardId INT(10) UNSIGNED NOT NULL AFTER memberId;
 
-# 1~5번 게시물에 게시판 정보 추가
-UPDATE article SET boardId=1 WHERE id < 6;
+# ~3번 게시물에 게시판 정보 추가
+UPDATE article SET boardId=1 WHERE id <= 3;
 
-# 6~10번 게시물에 게시판 정보 추가
-UPDATE article SET boardId=2 WHERE id > 5;
+# 4~번 게시물에 게시판 정보 추가
+UPDATE article SET boardId=2 WHERE id > 3;
 
 # 게시물 갯수 늘리기
 INSERT INTO article
@@ -147,6 +147,63 @@ SELECT FLOOR(RAND() * 2 + 1);
 #게시물 테이블에 hitCount 칼럼 추가
 ALTER TABLE article
 ADD COLUMN hitCount INT(10) UNSIGNED NOT NULL DEFAULT 0;
+
+# 리액션포인트 테이블
+CREATE TABLE reactionPoint(
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,
+    memberId INT(10) UNSIGNED NOT NULL,
+    relTypeCode CHAR(30) NOT NULL COMMENT '관련데이터타입코드',
+    relId INT(10) UNSIGNED NOT NULL COMMENT '관련데이터번호',
+    `point` SMALLINT(2) NOT NULL
+);
+
+# 리액션포인트 테스트데이터
+## 1번 회원이 1번 article에 대해 싫어요
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 1,
+relTypeCode = 'article',
+relId = 1,
+`point` = -1;
+
+## 1번 회원이 2번 article에 대해 좋아요
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 1,
+relTypeCode = 'article',
+relId = 2,
+`point` = 1;
+
+## 2번 회원이 1번 article에 대해 싫어요
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 2,
+relTypeCode = 'article',
+relId = 1,
+`point` = -1;
+
+## 2번 회원이 2번 article에 대해 좋아요
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 2,
+relTypeCode = 'article',
+relId = 2,
+`point` = 1;
+
+## 3번 회원이 1번 article에 대해 좋아요
+INSERT INTO reactionPoint
+SET regDate = NOW(),
+updateDate = NOW(),
+memberId = 3,
+relTypeCode = 'article',
+relId = 1,
+`point` = 1;
 
 # 기타 
 SHOW TABLES;
@@ -163,4 +220,7 @@ FROM `member`;
 
 SELECT * 
 FROM board;
+
+SELECT *
+FROM reactionPoint;
 
