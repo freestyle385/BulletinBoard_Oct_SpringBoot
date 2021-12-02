@@ -29,10 +29,12 @@
     <div class="table-box-type-1">
       <table border="1">
         <colgroup>
-          <col width="80">
-          <col width="150">
-          <col width="150">
-          <col width="150">
+          <col width="75">
+          <col width="100">
+          <col width="100">
+          <col width="75">
+          <col width="75">
+          <col width="100">
           <col>
         </colgroup>
         <thead>
@@ -40,6 +42,8 @@
             <th>번호</th>
             <th>작성날짜</th>
             <th>수정날짜</th>
+            <th>조회수</th>
+            <th>추천</th>
             <th>작성자</th>
             <th>제목</th>
           </tr>
@@ -48,8 +52,10 @@
           <c:forEach var="article" items="${articles }">
             <tr>
               <td>${article.id }</td>
-              <td>${article.regDate.substring(2, 16) }</td>
-              <td>${article.updateDate.substring(2, 16) }</td>
+              <td>${article.forPrintType1RegDate }</td>
+              <td>${article.forPrintType1UpdateDate }</td>
+              <td>${article.hitCount}</td>
+              <td>${article.extra__goodReactionPoint}</td>
               <td>${article.extra__writerName }</td>
               <td>
                 <a class="btn-text-link" href="../article/detail?id=${article.id }">${article.title }</a>
@@ -69,8 +75,7 @@
         <c:set var="endPage" value="${page + pageMenuArmLen <= pagesCount ? page + pageMenuArmLen : pagesCount}" />
 
         <c:set var="pageBaseUri" value="?boardId=${board.id }" />
-        <c:set var="pageBaseUri"
-          value="${pageBaseUri }&searchKeywordTypeCode=${param.searchKeywordTypeCode }" />
+        <c:set var="pageBaseUri" value="${pageBaseUri }&searchKeywordTypeCode=${param.searchKeywordTypeCode }" />
         <c:set var="pageBaseUri" value="${pageBaseUri }&searchKeyword=${param.searchKeyword }" />
 
         <c:if test="${startPage > 1}">
