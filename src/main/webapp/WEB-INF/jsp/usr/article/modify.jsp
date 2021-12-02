@@ -30,6 +30,12 @@
             <td>${foundArticle.extra__writerName}</td>
           </tr>
           <tr>
+            <th>조회수</th>
+            <td>
+              <span class="article-detail__hit-count">${foundArticle.hitCount}</span>
+            </td>
+          </tr>
+          <tr>
             <th>제목</th>
             <td>
               <input name="title" class="w-full" value="${foundArticle.title}" type="text" />
@@ -39,6 +45,13 @@
             <th>내용</th>
             <td>
               <textarea name="body" class="w-full" rows="20" autocomplete="off" />${foundArticle.body}</textarea>
+            </td>
+          </tr>
+          <tr>
+            <th>추천</th>
+            <td>
+              <span class="article-detail__extra__goodReactionPoint">좋아요👍${foundArticle.extra__goodReactionPoint}</span>
+              <span class="ml-5 article-detail__extra__badReactionPoint">싫어요👎${foundArticle.extra__badReactionPoint}</span>
             </td>
           </tr>
         </tbody>

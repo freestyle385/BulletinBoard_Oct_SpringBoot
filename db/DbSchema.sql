@@ -148,79 +148,11 @@ SELECT FLOOR(RAND() * 2 + 1);
 ALTER TABLE article
 ADD COLUMN hitCount INT(10) UNSIGNED NOT NULL DEFAULT 0;
 
-# 리액션포인트 테이블
-CREATE TABLE reactionPoint(
-    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-    regDate DATETIME NOT NULL,
-    updateDate DATETIME NOT NULL,
-    memberId INT(10) UNSIGNED NOT NULL,
-    relTypeCode CHAR(30) NOT NULL COMMENT '관련데이터타입코드',
-    relId INT(10) UNSIGNED NOT NULL COMMENT '관련데이터번호',
-    `point` SMALLINT(2) NOT NULL
-);
+# 게시판 테이블에 goodReactionPoint 컬럼 추가
+ALTER TABLE article ADD COLUMN goodReactionPoint INT(10) UNSIGNED NOT NULL DEFAULT 0;
 
-# 리액션포인트 테스트데이터
-## 1번 회원이 1번 article에 대해 싫어요
-INSERT INTO reactionPoint
-SET regDate = NOW(),
-updateDate = NOW(),
-memberId = 1,
-relTypeCode = 'article',
-relId = 1,
-`point` = -1;
-
-## 1번 회원이 2번 article에 대해 좋아요
-INSERT INTO reactionPoint
-SET regDate = NOW(),
-updateDate = NOW(),
-memberId = 1,
-relTypeCode = 'article',
-relId = 2,
-`point` = 1;
-
-## 2번 회원이 1번 article에 대해 싫어요
-INSERT INTO reactionPoint
-SET regDate = NOW(),
-updateDate = NOW(),
-memberId = 2,
-relTypeCode = 'article',
-relId = 1,
-`point` = -1;
-
-## 2번 회원이 2번 article에 대해 좋아요
-INSERT INTO reactionPoint
-SET regDate = NOW(),
-updateDate = NOW(),
-memberId = 2,
-relTypeCode = 'article',
-relId = 2,
-`point` = 1;
-
-## 3번 회원이 1번 article에 대해 좋아요
-INSERT INTO reactionPoint
-SET regDate = NOW(),
-updateDate = NOW(),
-memberId = 3,
-relTypeCode = 'article',
-relId = 1,
-`point` = 1;
-
-# 관련 리액션 포인트 가져오기
-SELECT A.*,
-IFNULL(SUM(RP.point),0) AS extra__sumReactionPoint,
-IFNULL(SUM(IF(RP.point > 0, RP.point, 0)),0) AS extra__goodReactionPoint,
-IFNULL(SUM(IF(RP.point < 0, RP.point, 0)),0) AS extra__badReactionPoint
-FROM (
-    SELECT A.*,
-    M.nickname AS extra__writerName
-    FROM article AS A
-    LEFT JOIN `member` AS M
-    ON A.memberId = M.id
-) AS A
-LEFT JOIN reactionPoint AS RP
-ON RP.relTypeCode = 'article'
-AND A.id = RP.relId
-GROUP BY A.id;
+# 게시판 테이블에 badReactionPoint 컬럼 추가
+ALTER TABLE article ADD COLUMN badReactionPoint INT(10) UNSIGNED NOT NULL DEFAULT 0;
 
 # 기타 
 SHOW TABLES;
@@ -238,6 +170,10 @@ FROM `member`;
 SELECT * 
 FROM board;
 
-SELECT *
-FROM reactionPoint;
+UPDATE article SET goodReactionPoint = 3 WHERE id = 2;
+UPDATE article SET goodReactionPoint = 17 WHERE id = 4;
+UPDATE article SET goodReactionPoint = 2 WHERE id = 1;
 
+UPDATE article SET badReactionPoint = 1 WHERE id = 2;
+UPDATE article SET badReactionPoint = 6 WHERE id = 4;
+UPDATE article SET badReactionPoint = 9 WHERE id = 1;

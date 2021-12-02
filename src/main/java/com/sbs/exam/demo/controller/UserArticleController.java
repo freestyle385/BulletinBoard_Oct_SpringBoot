@@ -103,6 +103,39 @@ public class UserArticleController {
 		
 		return hitCount;
 	}
+	
+	@RequestMapping("/usr/article/increaseGoodRp")
+	@ResponseBody
+	public int increaseGoodRp(int id) {
+		articleService.increaseGoodRp(id);
+		int goodRp = articleService.getGoodRpCount(id);
+		
+//		reactionPointService.updateGoodRpInfo(id, (int) rq.getLoginedMemberId());
+		
+		return goodRp;
+	}
+	
+	@RequestMapping("/usr/article/increaseBadRp")
+	@ResponseBody
+	public int increaseBadRp(int id) {
+		articleService.increaseBadRp(id);
+		int badRp = articleService.getBadRpCount(id);
+		
+//		reactionPointService.updateGoodRpInfo(id, (int) rq.getLoginedMemberId());
+		
+		return badRp;
+	}
+	
+	@RequestMapping("/usr/article/decreaseGoodRp")
+	@ResponseBody
+	public int decreaseGoodRp(int id) {
+		articleService.decreaseGoodRp(id);
+		int goodRp = articleService.getGoodRpCount(id);
+		
+//		reactionPointService.updateGoodRpInfo(id, (int) rq.getLoginedMemberId());
+		
+		return goodRp;
+	}
 
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody

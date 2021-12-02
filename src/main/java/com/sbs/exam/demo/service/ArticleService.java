@@ -79,4 +79,23 @@ public class ArticleService {
 		return articleRepository.getHitCount(id);
 	}
 
+	public void increaseGoodRp(int id) {
+		articleRepository.increaseGoodRp(id);
+	}
+	
+	public void increaseBadRp(int id) {
+		articleRepository.increaseBadRp(id);
+	}
+	
+	public void decreaseGoodRp(int id) {
+		articleRepository.decreaseGoodRp(id);
+	}
+
+	public int getGoodRpCount(int id) {
+		return articleRepository.getGoodRpCount(id);
+	}
+	
+	public int getBadRpCount(int id) {
+		return articleRepository.getBadRpCount(id);
+	}
 }
