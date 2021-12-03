@@ -68,7 +68,8 @@ public class UserArticleController {
 		int pagesCount = articleService.getPagesCount(itemsCountInApage, articlesCount);
 		// 총 페이지 개수
 
-		List<Article> articles = articleService.getForPrintArticles(boardId, itemsCountInApage, page, searchKeywordTypeCode, searchKeyword);
+		List<Article> articles = articleService.getForPrintArticles(boardId, itemsCountInApage, page,
+				searchKeywordTypeCode, searchKeyword);
 
 		model.addAttribute("articles", articles);
 		model.addAttribute("articlesCount", articlesCount);
@@ -81,60 +82,25 @@ public class UserArticleController {
 
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(Model model, int id) {
-		
+
 		if (articleService.isArticleExists(id) == false) {
 			return Util.jsHistoryBack(Util.f("%d번 게시물은 존재하지 않습니다.", id));
 		}
-		
-//		articleService.increaseHitCount(id);
-		
+
 		Article foundArticle = articleService.getForPrintArticle(id);
-		
+
 		model.addAttribute("foundArticle", foundArticle);
 
 		return "/usr/article/detail";
 	}
-	
-	@RequestMapping("/usr/article/doIncreaseHitCount")
+
+	@RequestMapping("/usr/article/increaseHitCount")
 	@ResponseBody
-	public int doIncreaseHitCount(int id) {
+	public int increaseHitCount(int id) {
 		articleService.increaseHitCount(id);
 		int hitCount = articleService.getHitCount(id);
-		
+
 		return hitCount;
-	}
-	
-	@RequestMapping("/usr/article/increaseGoodRp")
-	@ResponseBody
-	public int increaseGoodRp(int id) {
-		articleService.increaseGoodRp(id);
-		int goodRp = articleService.getGoodRpCount(id);
-		
-//		reactionPointService.updateGoodRpInfo(id, (int) rq.getLoginedMemberId());
-		
-		return goodRp;
-	}
-	
-	@RequestMapping("/usr/article/increaseBadRp")
-	@ResponseBody
-	public int increaseBadRp(int id) {
-		articleService.increaseBadRp(id);
-		int badRp = articleService.getBadRpCount(id);
-		
-//		reactionPointService.updateGoodRpInfo(id, (int) rq.getLoginedMemberId());
-		
-		return badRp;
-	}
-	
-	@RequestMapping("/usr/article/decreaseGoodRp")
-	@ResponseBody
-	public int decreaseGoodRp(int id) {
-		articleService.decreaseGoodRp(id);
-		int goodRp = articleService.getGoodRpCount(id);
-		
-//		reactionPointService.updateGoodRpInfo(id, (int) rq.getLoginedMemberId());
-		
-		return goodRp;
 	}
 
 	@RequestMapping("/usr/article/doDelete")

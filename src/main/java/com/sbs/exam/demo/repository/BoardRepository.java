@@ -9,4 +9,5 @@ import com.sbs.exam.demo.vo.Board;
 public interface BoardRepository {
 	
 	public Board getBoardNameById(@Param("boardId") int boardId);
+
 }

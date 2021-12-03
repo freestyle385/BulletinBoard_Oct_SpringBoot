@@ -154,6 +154,15 @@ ALTER TABLE article ADD COLUMN goodReactionPoint INT(10) UNSIGNED NOT NULL DEFAU
 # 게시판 테이블에 badReactionPoint 컬럼 추가
 ALTER TABLE article ADD COLUMN badReactionPoint INT(10) UNSIGNED NOT NULL DEFAULT 0;
 
+# 리액션포인트 테이블
+CREATE TABLE reactionPoint(
+    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    regDate DATETIME NOT NULL,
+    updateDate DATETIME NOT NULL,
+    articleId INT(10) UNSIGNED NOT NULL,
+    memberId INT(10) UNSIGNED NOT NULL
+);
+
 # 기타 
 SHOW TABLES;
 DESC article;
@@ -169,6 +178,9 @@ FROM `member`;
 
 SELECT * 
 FROM board;
+
+SELECT * 
+FROM reactionPoint;
 
 UPDATE article SET goodReactionPoint = 3 WHERE id = 2;
 UPDATE article SET goodReactionPoint = 17 WHERE id = 4;

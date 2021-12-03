@@ -27,15 +27,20 @@ public class MyWebConfig implements WebMvcConfigurer {
 	public void addInterceptors(InterceptorRegistry registry) {
 
 		InterceptorRegistration beforeActionIr = registry.addInterceptor(beforeActionInterceptor);
-		beforeActionIr.addPathPatterns("/**").excludePathPatterns("/resource/**");
+		beforeActionIr.addPathPatterns("/**").excludePathPatterns("/resource/**").excludePathPatterns("/favicon.ico")
+				.excludePathPatterns("/error");
 		// addPathPatterns("/**")는 전체 url을 인터셉트하게함. excludePathPatterns는 그 중 예외할 것(이미지와
 		// 같은 정적 자원).
 		// 추가할 것은 뒤에 .붙인 후 쭉 이어서 적어나갈 수 있음.
 
 		InterceptorRegistration needLoginIr = registry.addInterceptor(needLoginInterceptor);
-		needLoginIr.addPathPatterns("/usr/article/write").addPathPatterns("/usr/article/doWrite").addPathPatterns("/usr/article/modify")
-				.addPathPatterns("/usr/article/doModify").addPathPatterns("/usr/article/doDelete")
-				.addPathPatterns("/usr/member/doLogout");
+		needLoginIr.addPathPatterns("/usr/article/write").addPathPatterns("/usr/article/doWrite")
+				.addPathPatterns("/usr/article/modify").addPathPatterns("/usr/article/doModify")
+				.addPathPatterns("/usr/article/doDelete").addPathPatterns("/usr/member/doLogout")
+				.addPathPatterns("/usr/reactionPoint/increaseGoodRp")
+				.addPathPatterns("/usr/reactionPoint/increaseBadRp")
+				.addPathPatterns("/usr/reactionPoint/decreaseGoodRp")
+				.addPathPatterns("/usr/reactionPoint/decreaseBadRp");
 
 		InterceptorRegistration needLogoutIr = registry.addInterceptor(needLogoutInterceptor);
 		needLogoutIr.addPathPatterns("/usr/member/login").addPathPatterns("/usr/member/join")

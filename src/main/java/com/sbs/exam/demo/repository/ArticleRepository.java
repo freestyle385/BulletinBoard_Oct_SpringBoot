@@ -31,9 +31,9 @@ public interface ArticleRepository {
 	public void increaseHitCount(@Param("id") int id);
 
 	public int getHitCount(@Param("id") int id);
-
-	public void increaseGoodRp(@Param("id") int id);
 	
+	public void increaseGoodRp(@Param("id") int id);
+
 	public void increaseBadRp(@Param("id") int id);
 
 	public void decreaseGoodRp(@Param("id") int id);
@@ -42,5 +42,6 @@ public interface ArticleRepository {
 
 	public int getBadRpCount(@Param("id") int id);
 
+	public int getBoardIdByArticle(@Param("id") int id);
 
 }

@@ -27,12 +27,14 @@ public class ArticleService {
 		return articleRepository.getForPrintArticle(id);
 	}
 
-	public List<Article> getForPrintArticles(int boardId, int itemsCountInApage, int page, String searchKeywordTypeCode, String searchKeyword) {
+	public List<Article> getForPrintArticles(int boardId, int itemsCountInApage, int page, String searchKeywordTypeCode,
+			String searchKeyword) {
 
 		int limitStart = (page - 1) * itemsCountInApage; // 페이징 범위 시작지점
 		int limitTake = itemsCountInApage;
 
-		return articleRepository.getForPrintArticles(boardId, searchKeywordTypeCode, searchKeyword, limitStart, limitTake);
+		return articleRepository.getForPrintArticles(boardId, searchKeywordTypeCode, searchKeyword, limitStart,
+				limitTake);
 	}
 
 	public void deleteArticle(int id) {
@@ -67,7 +69,7 @@ public class ArticleService {
 
 	public int getPagesCount(int itemsCountInApage, int articlesCount) {
 		int pagesCount = (int) Math.ceil((double) articlesCount / itemsCountInApage);
-		
+
 		return pagesCount;
 	}
 
@@ -78,7 +80,7 @@ public class ArticleService {
 	public int getHitCount(int id) {
 		return articleRepository.getHitCount(id);
 	}
-
+	
 	public void increaseGoodRp(int id) {
 		articleRepository.increaseGoodRp(id);
 	}
@@ -97,5 +99,9 @@ public class ArticleService {
 	
 	public int getBadRpCount(int id) {
 		return articleRepository.getBadRpCount(id);
+	}
+
+	public int getBoardIdByArticle(int id) {
+		return articleRepository.getBoardIdByArticle(id);
 	}
 }

@@ -122,35 +122,43 @@
 	
 	<update id="increaseGoodRp">
 		UPDATE article
-		SET goodReactionPoint = goodReactionPoint + 1
+		SET goodReactionPoint =
+		goodReactionPoint + 1
 		WHERE id =
 		#{id}
 	</update>
-	
+
 	<update id="increaseBadRp">
 		UPDATE article
-		SET badReactionPoint = badReactionPoint + 1
+		SET badReactionPoint = badReactionPoint
+		+ 1
 		WHERE id =
 		#{id}
 	</update>
-	
+
 	<update id="decreaseGoodRp">
 		UPDATE article
-		SET goodReactionPoint = goodReactionPoint - 1
+		SET goodReactionPoint =
+		goodReactionPoint - 1
 		WHERE id =
 		#{id}
 	</update>
-	
+
 	<select id="getGoodRpCount" resultType="int">
 		SELECT goodReactionPoint
 		FROM article
 		WHERE id = #{id}
 	</select>
-	
+
 	<select id="getBadRpCount" resultType="int">
 		SELECT badReactionPoint
 		FROM article
 		WHERE id = #{id}
 	</select>
 	
+	<select id="getBoardIdByArticle" resultType="int">
+		SELECT A.boardId
+		FROM article AS A
+		WHERE id = #{id}
+	</select>
 </mapper> 

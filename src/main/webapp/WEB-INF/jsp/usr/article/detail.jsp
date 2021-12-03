@@ -19,7 +19,7 @@
 		}
 		localStorage.setItem(localStorageKey, true);
 
-		$.get('../article/doIncreaseHitCount', {
+		$.get('../article/increaseHitCount', {
 			id : params.id,
 			ajaxMode : 'Y'
 		}, function(hitCount) {
@@ -32,38 +32,60 @@
 </script>
 
 <script>
-	$(document).ready( function() {
-    	 $(function(){
-    	    	$('.add-goodRp-btn').click(function(){
-    	    		$.ajax({
-    	    			url: "/usr/article/increaseGoodRp",
-    	                type: "POST",
-    	                data: {
-    	                    id: params.id
-    	                },
-    	                success: function (goodReactionPoint) {
-    	                	$('.add-goodRp').html(goodReactionPoint);
-    	                },
-    	    		})
-    	    	})
-    	 });
+	$(document).ready(function() {
+		$(function() {
+			$('.add-goodRp-btn').click(function() {
+
+				$.ajax({
+					url : "/usr/reactionPoint/increaseGoodRp",
+					type : "POST",
+					data : {
+						id : params.id
+					},
+					success : function(goodReactionPoint) {
+						$('.add-goodRp').html(goodReactionPoint);
+						isAlreadyAddGoodRp = true;
+					},
+					fail : function() {
+						alert('연결 실패, 현재 boolean : ' + isAlreadyAddGoodRp);
+					},
+				});
+
+				/* $.ajax({
+					url: "/usr/reactionPoint/decreaseGoodRp",
+				     type: "POST",
+				     data: {
+				         id: params.id
+				     },
+				     success: function (goodReactionPoint) {
+				     	$('.add-goodRp').html(goodReactionPoint);
+				     	isAlreadyAddGoodRp = false;
+				     },
+				     fail: function (){
+				   		alert('연결 실패, 현재 boolean : ' + isAlreadyAddGoodRp);
+				  		},
+				}) */
+
+			});
+		});
+		
+		$(function() {
+			$('.add-badRp-btn').click(function() {
+				$.ajax({
+					url : "/usr/reactionPoint/increaseBadRp",
+					type : "POST",
+					data : {
+						id : params.id
+					},
+					success : function(badReactionPoint) {
+						$('.add-badRp').html(badReactionPoint);
+					},
+				});
+			});
+		});
 	});
-	$(document).ready( function() {
-   	 $(function(){
-   	    	$('.add-badRp-btn').click(function(){
-   	    		$.ajax({
-   	    			url: "/usr/article/increaseBadRp",
-   	                type: "POST",
-   	                data: {
-   	                    id: params.id
-   	                },
-   	                success: function (badReactionPoint) {
-   	                	$('.add-badRp').html(badReactionPoint);
-   	                },
-   	    		})
-   	    	})
-   	 });
-	});
+
+	
 </script>
 
 <section class="mt-5">
@@ -107,9 +129,15 @@
           <tr>
             <th>추천</th>
             <td>
-              <span class="add-goodRp-btn btn btn-outline">좋아요👍<span class="add-goodRp ml-2">${foundArticle.goodReactionPoint}</span></span>
-              
-              <span class="add-badRp-btn ml-5 btn btn-outline">싫어요👎<span class="add-badRp ml-2">${foundArticle.badReactionPoint}</span></span>
+              <span class="add-goodRp-btn btn btn-outline">
+                좋아요👍
+                <span class="add-goodRp ml-2">${foundArticle.goodReactionPoint}</span>
+              </span>
+
+              <span class="add-badRp-btn ml-5 btn btn-outline">
+                싫어요👎
+                <span class="add-badRp ml-2">${foundArticle.badReactionPoint}</span>
+              </span>
             </td>
           </tr>
         </tbody>
