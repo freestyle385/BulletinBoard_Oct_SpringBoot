@@ -41,6 +41,7 @@ public class MyWebConfig implements WebMvcConfigurer {
 				.addPathPatterns("/usr/reactionPoint/increaseBadRp")
 				.addPathPatterns("/usr/reactionPoint/decreaseGoodRp")
 				.addPathPatterns("/usr/reactionPoint/decreaseBadRp");
+//				.addPathPatterns("/usr/article/detail");
 
 		InterceptorRegistration needLogoutIr = registry.addInterceptor(needLogoutInterceptor);
 		needLogoutIr.addPathPatterns("/usr/member/login").addPathPatterns("/usr/member/join")

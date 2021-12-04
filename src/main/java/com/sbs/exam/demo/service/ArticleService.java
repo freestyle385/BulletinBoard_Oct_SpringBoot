@@ -92,7 +92,11 @@ public class ArticleService {
 	public void decreaseGoodRp(int id) {
 		articleRepository.decreaseGoodRp(id);
 	}
-
+	
+	public void decreaseBadRp(int id) {
+		articleRepository.decreaseBadRp(id);
+	}
+	
 	public int getGoodRpCount(int id) {
 		return articleRepository.getGoodRpCount(id);
 	}
@@ -104,4 +108,6 @@ public class ArticleService {
 	public int getBoardIdByArticle(int id) {
 		return articleRepository.getBoardIdByArticle(id);
 	}
+
+	
 }

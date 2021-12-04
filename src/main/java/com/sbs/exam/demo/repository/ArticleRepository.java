@@ -37,11 +37,15 @@ public interface ArticleRepository {
 	public void increaseBadRp(@Param("id") int id);
 
 	public void decreaseGoodRp(@Param("id") int id);
-
+	
+	public void decreaseBadRp(@Param("id") int id);
+	
 	public int getGoodRpCount(@Param("id") int id);
 
 	public int getBadRpCount(@Param("id") int id);
 
 	public int getBoardIdByArticle(@Param("id") int id);
+
+	
 
 }

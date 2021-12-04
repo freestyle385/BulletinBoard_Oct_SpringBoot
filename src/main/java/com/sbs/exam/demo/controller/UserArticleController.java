@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.sbs.exam.demo.service.ArticleService;
 import com.sbs.exam.demo.service.BoardService;
+import com.sbs.exam.demo.service.ReactionPointService;
 import com.sbs.exam.demo.util.Util;
 import com.sbs.exam.demo.vo.Article;
 import com.sbs.exam.demo.vo.Board;
@@ -22,6 +23,8 @@ public class UserArticleController {
 	private ArticleService articleService;
 	@Autowired
 	private BoardService boardService;
+	@Autowired
+	private ReactionPointService reactionPointService;
 	@Autowired
 	private Rq rq;
 
@@ -90,6 +93,9 @@ public class UserArticleController {
 		Article foundArticle = articleService.getForPrintArticle(id);
 
 		model.addAttribute("foundArticle", foundArticle);
+		model.addAttribute("isLogined", rq.isLogined());
+		model.addAttribute("isAlreadyAddGoodRp", reactionPointService.isAlreadyAddGoodRp(id));
+		model.addAttribute("isAlreadyAddBadRp", reactionPointService.isAlreadyAddBadRp(id));
 
 		return "/usr/article/detail";
 	}

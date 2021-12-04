@@ -4,7 +4,7 @@
 <mapper
 	namespace="com.sbs.exam.demo.repository.ReactionPointRepository">
 
-	<insert id="addGoodRpInfo">
+	<insert id="addIncreasingGoodRpInfo">
 		INSERT INTO reactionPoint
 		SET regDate = NOW(),
 		updateDate =
@@ -15,7 +15,7 @@
 		pointTypeCode = 1
 	</insert>
 	
-	<insert id="addBadRpInfo">
+	<insert id="addDecreasingGoodRpInfo">
 		INSERT INTO reactionPoint
 		SET regDate = NOW(),
 		updateDate =
@@ -25,4 +25,32 @@
 		memberId = #{memberId},
 		pointTypeCode = -1
 	</insert>
+
+	<insert id="addIncreasingBadRpInfo">
+		INSERT INTO reactionPoint
+		SET regDate = NOW(),
+		updateDate =
+		NOW(),
+		boardId = #{boardId},
+		articleId = #{articleId},
+		memberId = #{memberId},
+		pointTypeCode = 2
+	</insert>
+	
+	<insert id="addDecreasingBadRpInfo">
+		INSERT INTO reactionPoint
+		SET regDate = NOW(),
+		updateDate =
+		NOW(),
+		boardId = #{boardId},
+		articleId = #{articleId},
+		memberId = #{memberId},
+		pointTypeCode = -2
+	</insert>
+
+	<select id="getRpInfoByMemberId" resultType="Integer">
+		SELECT SUM(pointTypeCode) 
+		FROM reactionPoint 
+		WHERE articleId = #{articleId} AND memberId = #{memberId};
+	</select>
 </mapper> 

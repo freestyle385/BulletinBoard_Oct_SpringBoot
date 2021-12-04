@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <c:set var="pageTitle" value="게시물 상세조회" />
-
 <%@ include file="../common/head.jspf"%>
 
 <script>
@@ -33,9 +32,31 @@
 
 <script>
 	$(document).ready(function() {
-		$(function() {
-			$('.add-goodRp-btn').click(function() {
+		var isAlreadyAddGoodRp = $
+		{
+			isAlreadyAddGoodRp
+		}
+		;
+		var isAlreadyAddBadRp = $
+		{
+			isAlreadyAddBadRp
+		}
+		;
 
+		$("#request-login-good").click(function() {
+			alert('로그인 후 이용해주세요!');
+			return;
+		});
+		$("#request-login-bad").click(function() {
+			alert('로그인 후 이용해주세요!');
+			return;
+		});
+		$("#add-goodRp-btn").click(function() {
+			if (isAlreadyAddBadRp == true) {
+				alert('이미 싫어요를 누르셨습니다.');
+				return;
+			}
+			if (isAlreadyAddGoodRp == false) {
 				$.ajax({
 					url : "/usr/reactionPoint/increaseGoodRp",
 					type : "POST",
@@ -43,34 +64,30 @@
 						id : params.id
 					},
 					success : function(goodReactionPoint) {
-						$('.add-goodRp').html(goodReactionPoint);
+						$(".add-goodRp").html(goodReactionPoint);
 						isAlreadyAddGoodRp = true;
 					},
-					fail : function() {
-						alert('연결 실패, 현재 boolean : ' + isAlreadyAddGoodRp);
+				});
+			} else {
+				$.ajax({
+					url : "/usr/reactionPoint/decreaseGoodRp",
+					type : "POST",
+					data : {
+						id : params.id
+					},
+					success : function(goodReactionPoint) {
+						$(".add-goodRp").html(goodReactionPoint);
+						isAlreadyAddGoodRp = false;
 					},
 				});
-
-				/* $.ajax({
-					url: "/usr/reactionPoint/decreaseGoodRp",
-				     type: "POST",
-				     data: {
-				         id: params.id
-				     },
-				     success: function (goodReactionPoint) {
-				     	$('.add-goodRp').html(goodReactionPoint);
-				     	isAlreadyAddGoodRp = false;
-				     },
-				     fail: function (){
-				   		alert('연결 실패, 현재 boolean : ' + isAlreadyAddGoodRp);
-				  		},
-				}) */
-
-			});
+			}
 		});
-		
-		$(function() {
-			$('.add-badRp-btn').click(function() {
+		$("#add-badRp-btn").click(function() {
+			if (isAlreadyAddGoodRp == true) {
+				alert('이미 좋아요를 누르셨습니다.');
+				return;
+			}
+			if (isAlreadyAddBadRp == false) {
 				$.ajax({
 					url : "/usr/reactionPoint/increaseBadRp",
 					type : "POST",
@@ -78,14 +95,25 @@
 						id : params.id
 					},
 					success : function(badReactionPoint) {
-						$('.add-badRp').html(badReactionPoint);
+						$(".add-badRp").html(badReactionPoint);
+						isAlreadyAddBadRp = true;
 					},
 				});
-			});
+			} else {
+				$.ajax({
+					url : "/usr/reactionPoint/decreaseBadRp",
+					type : "POST",
+					data : {
+						id : params.id
+					},
+					success : function(badReactionPoint) {
+						$(".add-badRp").html(badReactionPoint);
+						isAlreadyAddBadRp = false;
+					},
+				});
+			}
 		});
 	});
-
-	
 </script>
 
 <section class="mt-5">
@@ -129,15 +157,27 @@
           <tr>
             <th>추천</th>
             <td>
-              <span class="add-goodRp-btn btn btn-outline">
-                좋아요👍
-                <span class="add-goodRp ml-2">${foundArticle.goodReactionPoint}</span>
-              </span>
+              <c:if test="${isLogined }">
+                <span id="add-goodRp-btn" class="btn btn-outline">
+                  좋아요👍
+                  <span class="add-goodRp ml-2">${foundArticle.goodReactionPoint}</span>
+                </span>
 
-              <span class="add-badRp-btn ml-5 btn btn-outline">
-                싫어요👎
-                <span class="add-badRp ml-2">${foundArticle.badReactionPoint}</span>
-              </span>
+                <span id="add-badRp-btn" class="ml-5 btn btn-outline">
+                  싫어요👎
+                  <span class="add-badRp ml-2">${foundArticle.badReactionPoint}</span>
+                </span>
+              </c:if>
+              <c:if test="${!isLogined }">
+                <span id="request-login-good" class="btn btn-outline">
+                  좋아요👍
+                  <span class="add-goodRp ml-2">${foundArticle.goodReactionPoint}</span>
+                </span>
+                <span id="request-login-bad" class="ml-5 btn btn-outline">
+                  싫어요👎
+                  <span class="add-badRp ml-2">${foundArticle.badReactionPoint}</span>
+                </span>
+              </c:if>
             </td>
           </tr>
         </tbody>
@@ -151,5 +191,7 @@
     </div>
   </div>
 </section>
+
+
 <%@ include file="../common/foot.jspf"%>
 

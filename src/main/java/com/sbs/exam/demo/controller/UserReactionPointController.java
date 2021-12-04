@@ -23,7 +23,18 @@ public class UserReactionPointController {
 		reactionPointService.increaseGoodRp(id);
 		int goodRp = reactionPointService.getGoodRpCount(id);
 
-		reactionPointService.addGoodRpInfo(id, (int) rq.getLoginedMemberId());
+		reactionPointService.addIncreasingGoodRpInfo(id, (int) rq.getLoginedMemberId());
+
+		return goodRp;
+	}
+	
+	@RequestMapping("/usr/reactionPoint/decreaseGoodRp")
+	@ResponseBody
+	public int decreaseGoodRp(int id) {
+		reactionPointService.decreaseGoodRp(id);
+		int goodRp = reactionPointService.getGoodRpCount(id);
+
+		reactionPointService.addDecreasingGoodRpInfo(id, (int) rq.getLoginedMemberId());
 
 		return goodRp;
 	}
@@ -34,20 +45,20 @@ public class UserReactionPointController {
 		reactionPointService.increaseBadRp(id);
 		int badRp = reactionPointService.getBadRpCount(id);
 
-		reactionPointService.addBadRpInfo(id, (int) rq.getLoginedMemberId());
+		reactionPointService.addIncreasingBadRpInfo(id, (int) rq.getLoginedMemberId());
 
 		return badRp;
 	}
-
-	@RequestMapping("/usr/reactionPoint/decreaseGoodRp")
+	
+	@RequestMapping("/usr/reactionPoint/decreaseBadRp")
 	@ResponseBody
-	public int decreaseGoodRp(int id) {
-		reactionPointService.decreaseGoodRp(id);
-		int goodRp = reactionPointService.getGoodRpCount(id);
+	public int decreaseBadRp(int id) {
+		reactionPointService.decreaseBadRp(id);
+		int badRp = reactionPointService.getBadRpCount(id);
 
-//		reactionPointService.addGoodRpInfo(id, (int) rq.getLoginedMemberId());
+		reactionPointService.addDecreasingBadRpInfo(id, (int) rq.getLoginedMemberId());
 
-		return goodRp;
+		return badRp;
 	}
 
 	// 액션 메소드 끝
