@@ -77,7 +77,7 @@ public class ReactionPointService {
 
 	public boolean isAlreadyAddGoodRp(int articleId) {
 		// 좋아요/취소 = 1/-1, 싫어요/취소 = 2/-2
-		// 현재 loginedMemberId의 pointTypeCode값의 합이 1이면 좋아요 상태
+		// 현재 게시물에서, loginedMemberId의 pointTypeCode값의 합이 1이면 좋아요 상태
 		int sumPointByMemberId = getRpInfoByMemberId(articleId, rq.getLoginedMemberId());
 		
 		if (sumPointByMemberId == 1) {
@@ -88,7 +88,7 @@ public class ReactionPointService {
 
 	public boolean isAlreadyAddBadRp(int articleId) {
 		// 좋아요/취소 = 1/-1, 싫어요/취소 = 2/-2
-		// 현재 loginedMemberId의 pointTypeCode값의 합이 2이면 싫어요 상태
+		// 현재 게시물에서, loginedMemberId의 pointTypeCode값의 합이 2이면 싫어요 상태
 		int sumPointByMemberId = getRpInfoByMemberId(articleId, rq.getLoginedMemberId());
 		
 		if (sumPointByMemberId == 2) {

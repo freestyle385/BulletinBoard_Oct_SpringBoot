@@ -7,6 +7,9 @@
 <script>
 	const params = {};
 	params.id = parseInt('${param.id}');
+
+	var isAlreadyAddGoodRp = ${isAlreadyAddGoodRp};
+	var isAlreadyAddBadRp = ${isAlreadyAddBadRp};
 </script>
 
 <script>
@@ -28,21 +31,26 @@
 	$(function() {
 		ArticleDetail__increaseHitCount();
 	})
+
+	function checkAddRpBefore() {
+		if (isAlreadyAddGoodRp == true) {
+			$("#add-goodRp-btn").addClass("already-added");
+		} else if (isAlreadyAddBadRp == true) {
+			$("#add-badRp-btn").addClass("already-added");
+		} else {
+			return;
+		}
+		$(function() {
+			checkAddRpBefore();
+		});
+	};
 </script>
 
 <script>
 	$(document).ready(function() {
-		var isAlreadyAddGoodRp = $
-		{
-			isAlreadyAddGoodRp
-		}
-		;
-		var isAlreadyAddBadRp = $
-		{
-			isAlreadyAddBadRp
-		}
-		;
-
+		$(function() {
+			checkAddRpBefore();
+		});
 		$("#request-login-good").click(function() {
 			alert('로그인 후 이용해주세요!');
 			return;
@@ -64,9 +72,13 @@
 						id : params.id
 					},
 					success : function(goodReactionPoint) {
+						$("#add-goodRp-btn").addClass("already-added");
 						$(".add-goodRp").html(goodReactionPoint);
 						isAlreadyAddGoodRp = true;
 					},
+					error : function() {
+						alert('서버 에러, 다시 시도해주세요.');
+					}
 				});
 			} else {
 				$.ajax({
@@ -76,9 +88,13 @@
 						id : params.id
 					},
 					success : function(goodReactionPoint) {
+						$("#add-goodRp-btn").removeClass("already-added");
 						$(".add-goodRp").html(goodReactionPoint);
 						isAlreadyAddGoodRp = false;
 					},
+					error : function() {
+						alert('서버 에러, 다시 시도해주세요.');
+					}
 				});
 			}
 		});
@@ -95,9 +111,13 @@
 						id : params.id
 					},
 					success : function(badReactionPoint) {
+						$("#add-badRp-btn").addClass("already-added");
 						$(".add-badRp").html(badReactionPoint);
 						isAlreadyAddBadRp = true;
 					},
+					error : function() {
+						alert('서버 에러, 다시 시도해주세요.');
+					}
 				});
 			} else {
 				$.ajax({
@@ -107,14 +127,25 @@
 						id : params.id
 					},
 					success : function(badReactionPoint) {
+						$("#add-badRp-btn").removeClass("already-added");
 						$(".add-badRp").html(badReactionPoint);
 						isAlreadyAddBadRp = false;
 					},
+					error : function() {
+						alert('서버 에러, 다시 시도해주세요.');
+					}
 				});
 			}
 		});
 	});
 </script>
+
+<style type="text/css">
+.already-added {
+	background-color: #0D3EA3;
+	color: white;
+}
+</style>
 
 <section class="mt-5">
   <div class="container mx-auto px-3">
@@ -162,7 +193,6 @@
                   좋아요👍
                   <span class="add-goodRp ml-2">${foundArticle.goodReactionPoint}</span>
                 </span>
-
                 <span id="add-badRp-btn" class="ml-5 btn btn-outline">
                   싫어요👎
                   <span class="add-badRp ml-2">${foundArticle.badReactionPoint}</span>
@@ -191,7 +221,6 @@
     </div>
   </div>
 </section>
-
 
 <%@ include file="../common/foot.jspf"%>
 
