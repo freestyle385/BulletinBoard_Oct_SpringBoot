@@ -156,44 +156,18 @@ ALTER TABLE article ADD COLUMN badReactionPoint INT(10) UNSIGNED NOT NULL DEFAUL
 
 # 리액션포인트 테이블
 CREATE TABLE reactionPoint(
-    id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id INT(100) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
     regDate DATETIME NOT NULL,
     updateDate DATETIME NOT NULL,
     boardId INT(10) UNSIGNED NOT NULL COMMENT '게시판/댓글 식별 코드',
     articleId INT(10) UNSIGNED NOT NULL,
     memberId INT(10) UNSIGNED NOT NULL,
-    pointTypeCode TINYINT(1) NOT NULL COMMENT '좋아요/취소=1/-1,싫어요/취소=2/-2' 
+    pointTypeCode TINYINT(1) NOT NULL COMMENT '좋아요=1,싫어요=2' 
 );
-
-### reactionPoint 테스트 데이터
-INSERT INTO reactionPoint
-SET regDate = NOW(),
-updateDate = NOW(),
-boardId = 1,
-articleId = 1,
-memberId = 1,
-pointTypeCode = 1;
-
-INSERT INTO reactionPoint
-SET regDate = NOW(),
-updateDate = NOW(),
-boardId = 1,
-articleId = 2,
-memberId = 1,
-pointTypeCode = 2;
-
-INSERT INTO reactionPoint
-SET regDate = NOW(),
-updateDate = NOW(),
-boardId = 1,
-articleId = 1,
-memberId = 2,
-pointTypeCode = 1;
-
 
 # 기타 
 SHOW TABLES;
-DESC article;
+DESC reactionPoint;
 
 SELECT *
 FROM article;
@@ -209,18 +183,3 @@ FROM board;
 
 SELECT * 
 FROM reactionPoint;
-
-UPDATE article SET goodReactionPoint = 3 WHERE id = 2;
-UPDATE article SET goodReactionPoint = 17 WHERE id = 4;
-UPDATE article SET goodReactionPoint = 2 WHERE id = 1;
-
-UPDATE article SET badReactionPoint = 1 WHERE id = 2;
-UPDATE article SET badReactionPoint = 6 WHERE id = 4;
-UPDATE article SET badReactionPoint = 9 WHERE id = 1;
-
-DROP TABLE reactionPoint;
-DELETE FROM reactionPoint;
-
-SELECT pointTypeCode FROM reactionPoint WHERE memberId = 1;
-SELECT SUM(pointTypeCode) FROM reactionPoint WHERE memberId = 1;
-

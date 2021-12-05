@@ -12,7 +12,7 @@ public class ReactionPointService {
 	private ArticleService articleService;
 	@Autowired
 	private Rq rq;
-	
+
 	public ReactionPointService(ReactionPointRepository reactionPointRepository, ArticleService articleService,
 			BoardService boardService) {
 		this.reactionPointRepository = reactionPointRepository;
@@ -49,20 +49,20 @@ public class ReactionPointService {
 		int boardId = articleService.getBoardIdByArticle(articleId);
 		reactionPointRepository.addIncreasingGoodRpInfo(boardId, articleId, memberId);
 	}
-	
-	public void addDecreasingGoodRpInfo(int articleId, int memberId) {
+
+	public void deleteGoodRpInfo(int articleId, int memberId) {
 		int boardId = articleService.getBoardIdByArticle(articleId);
-		reactionPointRepository.addDecreasingGoodRpInfo(boardId, articleId, memberId);
+		reactionPointRepository.deleteGoodRpInfo(boardId, articleId, memberId);
 	}
 
 	public void addIncreasingBadRpInfo(int articleId, int memberId) {
 		int boardId = articleService.getBoardIdByArticle(articleId);
 		reactionPointRepository.addIncreasingBadRpInfo(boardId, articleId, memberId);
 	}
-	
-	public void addDecreasingBadRpInfo(int articleId, int memberId) {
+
+	public void deleteBadRpInfo(int articleId, int memberId) {
 		int boardId = articleService.getBoardIdByArticle(articleId);
-		reactionPointRepository.addDecreasingBadRpInfo(boardId, articleId, memberId);
+		reactionPointRepository.deleteBadRpInfo(boardId, articleId, memberId);
 	}
 
 	public Integer getRpInfoByMemberId(int articleId, int memberId) {
@@ -71,15 +71,15 @@ public class ReactionPointService {
 		if (sumPointByMemberId == null) {
 			sumPointByMemberId = 99;
 		}
-		
+
 		return (int) sumPointByMemberId;
 	}
 
 	public boolean isAlreadyAddGoodRp(int articleId) {
-		// 좋아요/취소 = 1/-1, 싫어요/취소 = 2/-2
-		// 현재 게시물에서, loginedMemberId의 pointTypeCode값의 합이 1이면 좋아요 상태
+		// 좋아요 = 1, 싫어요 = 2, 취소 시 데이터 삭제
+		// 현재 게시물에서, loginedMemberId의 pointTypeCode값이 1이면 좋아요 상태
 		int sumPointByMemberId = getRpInfoByMemberId(articleId, rq.getLoginedMemberId());
-		
+
 		if (sumPointByMemberId == 1) {
 			return true;
 		}
@@ -87,10 +87,10 @@ public class ReactionPointService {
 	}
 
 	public boolean isAlreadyAddBadRp(int articleId) {
-		// 좋아요/취소 = 1/-1, 싫어요/취소 = 2/-2
-		// 현재 게시물에서, loginedMemberId의 pointTypeCode값의 합이 2이면 싫어요 상태
+		// 좋아요 = 1, 싫어요 = 2, 취소 시 데이터 삭제
+		// 현재 게시물에서, loginedMemberId의 pointTypeCode값이 2면 좋아요 상태
 		int sumPointByMemberId = getRpInfoByMemberId(articleId, rq.getLoginedMemberId());
-		
+
 		if (sumPointByMemberId == 2) {
 			return true;
 		}

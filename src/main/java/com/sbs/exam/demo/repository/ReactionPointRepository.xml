@@ -15,16 +15,13 @@
 		pointTypeCode = 1
 	</insert>
 	
-	<insert id="addDecreasingGoodRpInfo">
-		INSERT INTO reactionPoint
-		SET regDate = NOW(),
-		updateDate =
-		NOW(),
-		boardId = #{boardId},
-		articleId = #{articleId},
-		memberId = #{memberId},
-		pointTypeCode = -1
-	</insert>
+	<delete id="deleteGoodRpInfo">
+		DELETE FROM reactionPoint
+		WHERE boardId = #{boardId}
+		AND articleId = #{articleId}
+		AND memberId = #{memberId}
+		AND pointTypeCode = 1
+	</delete>
 
 	<insert id="addIncreasingBadRpInfo">
 		INSERT INTO reactionPoint
@@ -37,19 +34,16 @@
 		pointTypeCode = 2
 	</insert>
 	
-	<insert id="addDecreasingBadRpInfo">
-		INSERT INTO reactionPoint
-		SET regDate = NOW(),
-		updateDate =
-		NOW(),
-		boardId = #{boardId},
-		articleId = #{articleId},
-		memberId = #{memberId},
-		pointTypeCode = -2
-	</insert>
+	<delete id="deleteBadRpInfo">
+		DELETE FROM reactionPoint
+		WHERE boardId = #{boardId}
+		AND articleId = #{articleId}
+		AND memberId = #{memberId}
+		AND pointTypeCode = 2
+	</delete>
 
 	<select id="getRpInfoByMemberId" resultType="Integer">
-		SELECT SUM(pointTypeCode) 
+		SELECT pointTypeCode
 		FROM reactionPoint 
 		WHERE articleId = #{articleId} AND memberId = #{memberId};
 	</select>

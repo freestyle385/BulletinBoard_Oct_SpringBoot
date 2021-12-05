@@ -34,7 +34,7 @@ public class UserReactionPointController {
 		reactionPointService.decreaseGoodRp(id);
 		int goodRp = reactionPointService.getGoodRpCount(id);
 
-		reactionPointService.addDecreasingGoodRpInfo(id, (int) rq.getLoginedMemberId());
+		reactionPointService.deleteGoodRpInfo(id, (int) rq.getLoginedMemberId());
 
 		return goodRp;
 	}
@@ -56,7 +56,7 @@ public class UserReactionPointController {
 		reactionPointService.decreaseBadRp(id);
 		int badRp = reactionPointService.getBadRpCount(id);
 
-		reactionPointService.addDecreasingBadRpInfo(id, (int) rq.getLoginedMemberId());
+		reactionPointService.deleteBadRpInfo(id, (int) rq.getLoginedMemberId());
 
 		return badRp;
 	}
